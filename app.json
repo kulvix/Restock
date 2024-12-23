@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "Restock",
+    "slug": "Restock",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/splash.png",
+    "userInterfaceStyle": "automatic",
+    "scheme": "Restock",
+    "newArchEnabled": true,
+    "jsEngine": "hermes",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#00a479"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.restock"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff",
+        "monochromeImage": "./assets/monochrome-icon.png"
+      },
+      "package": "com.anonymous.restock",
+      "experimental": {
+        "bridgeless": false
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "react-native-video"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "f3ebe1fe-0b54-43b8-a1da-36a1957f22be"
+      }
+    }
+  }
+}
