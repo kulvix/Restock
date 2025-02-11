@@ -29,7 +29,7 @@ const CartScreen = () => {
     <View style={styles.container}>
       <View style={styles.tabBox}>
 
-      <FlatList
+        <FlatList
           data={Tabs}
           horizontal={true}
           scrollEnabled={false}
@@ -45,7 +45,8 @@ const CartScreen = () => {
                 }}>
               <Text style={styles.tabTitle(selecetedTab, item.id)}>{item.name}</Text>
             </TouchableOpacity>  
-        } />
+          }
+        />
 
       </View>
 

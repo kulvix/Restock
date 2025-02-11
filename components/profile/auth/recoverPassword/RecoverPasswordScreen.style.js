@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
 		height: SIZES.xLarge * 2.5,
   },
 
+  loaderIcon: {
+    width: SIZES.xxLarge,
+    height: SIZES.xxLarge,
+  },
+
   googleBtn: {
     flexDirection: 'row',
     gap: SIZES.large,
@@ -67,6 +72,32 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		height: SIZES.xxLarge * 2.5,
 	},
+
+
+
+
+
+
+
+
+
+
+
+
+  inputFieldErrorText: {
+		fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+		alignSelf: 'flex-end',
+    color: COLORS.error,
+    marginBottom: SIZES.small,
+  },
+
+
+
+
+
+
+
   
   
   formBody: {

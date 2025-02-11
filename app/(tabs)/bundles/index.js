@@ -3,7 +3,7 @@ import { useState } from "react";
 import { StatusBar, StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import { Stack } from "expo-router";
 import { COLORS, icons, images, SIZES, FONT } from '../../../constants';
-import { Search, Bundles } from '../../../components';
+import { Bundles } from '../../../components';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -26,7 +26,6 @@ export default function Index () {
 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={{flex:1, padding: SIZES.medium, paddingTop: 0, paddingBottom: 120}}>
-                        <Search />
                         <Bundles />
                         </View>
                     </ScrollView>

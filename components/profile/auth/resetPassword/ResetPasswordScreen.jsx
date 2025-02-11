@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -11,52 +11,84 @@ import {
   Keyboard,
   Image,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
 import styles from './ResetPasswordScreen.style';
 import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { Link, useRouter } from 'expo-router';
+import { Link, useRouter, useLocalSearchParams } from 'expo-router';
 import axios from 'axios';
+import { getBaseURL } from '../../../../utils/apiConfig';
 
+import ErrorMessage from '../../../../components/common/form/ErrorMessage';
+import { AuthContext } from '../../../../components/contexts/AuthContext';
+import validateForm from '../../../../utils/validateForm';
 
 const ResetPasswordScreen = () => {
 
-  const router = useRouter();
-  const [categories, setCategories] = useState([]);
-  const [loadingCategories, setLoadingCategories] = useState(true);
 
-  
-	const [password, setPassword] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
-  
+const router = useRouter();
+const [formMessage, setFormMessage] = useState();
+const [isError, setIsError] = useState(false);
+const [loading, setLoading] = useState(false);
 
+const { email } = useLocalSearchParams();
+const [password, setPassword] = useState("");
+const [confirmPassword, setConfirmPassword] = useState("");
+const [formFieldErrors, setFormFieldErrors] = useState();
+const [formValidated, setFormValidated] = useState(false);
+const [showPassword, setShowPassword] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // const BASE_URL = 'http://192.168.127.87:3001/api';
-  const BASE_URL = 'http://192.168.147.87:3001/auth';
+const { resetPassword } = useContext(AuthContext);
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-  
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/categories`);
-      setCategories(response.data);
-      setLoadingCategories(false);
-    } catch (error) {
-      console.error('Error fetching categories:', error.message);
-      setLoadingCategories(false);
-    }
+const handleResetPassword = async () => {
+  if (!formValidated) {
+    setFormMessage('Please enter details correctly.');
+    setIsError(true);
+    return; // Stop form submission if validation fails
+  }
+
+  setLoading(true);
+  const credentials = {
+    email: email,
+    newPassword: password,
+    confirmPassword: confirmPassword,
   };
 
-	const handleLogin = async () => {
-		console.log('Login clicked');
-		// try {
-		//     await signUp({ name, email, password, phone });
-		// } catch (err) {
-		//     console.error(err);
-		// }
-	};
+  try {
+    await resetPassword(credentials);
+    setFormMessage('Your password has been changed successfully. Go back to login');
+    setLoading(false);
+    setIsError(true);
+    router.replace("profile/auth/successful");
+  } catch (error) {
+    setFormMessage(error.message || 'An unexpected error occurred.');
+    setIsError(true);
+    setLoading(false);
+  }
+};
+
+const handleBlur = (field) => {
+  // console.log(email);
+  const credentials = {
+    email: email,
+    password: password,
+    confirmPassword: confirmPassword,
+  };
+
+  const requiredFields = ['email', 'password', 'confirmPassword'];
+  const errors = validateForm(credentials, requiredFields);
+
+  if (Object.keys(errors).length > 0) {
+    setFormFieldErrors(errors);
+    setFormValidated(false);
+  } else {
+    setFormValidated(true);
+    setFormFieldErrors({});
+  }
+  // console.log("Errors: ", errors, "Form Validated: ", formValidated);
+};
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -69,33 +101,67 @@ const ResetPasswordScreen = () => {
             contentContainerStyle={styles.container}
             showsVerticalScrollIndicator={false}
           >
-            {/* <View style={styles.header}>
-              <Image
-                source={require('../../../../assets/logo-icon-text.png')}
-                style={styles.imageIcon}
-              />
-            </View> */}
 
             <View style={styles.formBody}>
-              <TextInput
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-                placeholder="Enter new password"
-                style={styles.input}
+              <ErrorMessage
+                formMessage={formMessage}
+                isError={isError}
+                onDismiss={() => setIsError(false)}
               />
-              <TextInput
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                secureTextEntry
-                placeholder="Confirm password"
-                style={styles.input}
-              />
+
+              <View style={styles.inputBox}>
+                <TextInput
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
+                  placeholder="Enter new password"
+                  style={[styles.input, formFieldErrors?.password ? styles.inputError : '']}
+                  onBlur={() => handleBlur('password')}
+                />
+                <Pressable onPress={ () => {setShowPassword(prevState => !prevState)} } style={styles.showPasswordIconBox} >
+                  <Ionicons name={showPassword ? "eye-off" : "eye"} style={styles.showPasswordIcon} />
+                </Pressable>
+
+                {formFieldErrors?.password &&
+                  (
+                    <Text style={styles.inputFieldErrorText}>
+                      {formFieldErrors.password || ""}
+                    </Text>
+                  )
+                }
+              </View>
+              
+              <View style={styles.inputBox}>
+                <TextInput
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  secureTextEntry={!showConfirmPassword}
+                  placeholder="Confirm password"
+                  style={[styles.input, formFieldErrors?.password ? styles.inputError : '']}
+                  onBlur={() => handleBlur('confirmPassword')}
+                />
+                <Pressable onPress={ () => {setShowConfirmPassword(prevState => !prevState)} } style={styles.showPasswordIconBox}>
+                  <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} style={styles.showPasswordIcon} />
+                </Pressable>
+                {formFieldErrors?.confirmPassword &&
+                  (
+                    <Text style={styles.inputFieldErrorText}>
+                      {formFieldErrors.confirmPassword || ""}
+                    </Text>
+                  )
+                }
+              </View>
             </View>
             <View style={styles.formBtnSection}>
               <Text style={styles.formTitle}>Reset password</Text>
+              <LottieView
+                source={require('../../../../assets/loaders/loader.json')}
+                autoPlay
+                loop
+                style={[styles.loaderIcon, loading ? { display: 'flex' } : { display: 'none' }]}
+              />
               <Pressable
-                onPress={handleLogin}
+                onPress={handleResetPassword}
                 style={({ pressed }) => [
                   styles.formBtn,
                   pressed && styles.formBtnPressed,

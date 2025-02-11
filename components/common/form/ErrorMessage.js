@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Animated, StyleSheet } from 'react-native';
 import { FONT, SIZES, COLORS } from "../../../constants";
 
-const ErrorMessage = ({ formMessage, isError, onDismiss }) => {
+const ErrorMessage = ({ formMessage, isError, onDismiss, messageType }) => {
   const [visible, setVisible] = useState(false);
   const loaderWidth = React.useRef(new Animated.Value(100)).current; // Using ref for consistent animation control
 
@@ -10,25 +10,31 @@ const ErrorMessage = ({ formMessage, isError, onDismiss }) => {
     if (isError && formMessage) {
       setVisible(true);
 
-      // Reset animation and start it
-      loaderWidth.setValue(100); // Reset loader width to 100%
+      loaderWidth.setValue(100);
       Animated.timing(loaderWidth, {
-        toValue: 0, // Shrink loader to 0%
-        duration: 10000, // 10 seconds
+        toValue: 0,
+        duration: 5000, // 10 seconds
         useNativeDriver: false,
       }).start(() => {
-        setVisible(false); // Hide message when animation completes
-        if (onDismiss) onDismiss(); // Optional callback to reset parent state
+        setVisible(false);
+        if (onDismiss) onDismiss();
       });
     }
   }, [isError, formMessage, loaderWidth, onDismiss]);
 
   if (!visible) {
-    return null; // Do not render the box if not visible
+    return null;
   }
 
   return (
-    <View style={[styles.formMessageBox, { display: 'flex' }]}>
+    <View 
+      style={[
+        styles.formMessageBox,
+        { display: 'flex' },
+        messageType === 'success' && styles.successMessageBox,
+        messageType === 'error' && styles.errorMessageBox,
+      ]}
+    >
       <Text style={styles.formMessage}>{formMessage}</Text>
       <Animated.View
         style={[
@@ -47,23 +53,37 @@ const ErrorMessage = ({ formMessage, isError, onDismiss }) => {
 
 const styles = StyleSheet.create({
   formMessageBox: {
-    display: 'none',
+    // position: 'absolute',
+    zIndex: 2,
+    // width: '100%',
+  },
+  successMessageBox: {
     paddingBottom: 0,
     borderRadius: SIZES.small / 2,
     marginBottom: SIZES.small,
     borderWidth: .5,
-    borderColor: COLORS.gray,
+    borderColor: COLORS.lightPrimary,
+    backgroundColor: COLORS.primary
   },
+  errorMessageBox: {
+    paddingBottom: 0,
+    borderRadius: SIZES.small / 2,
+    marginBottom: SIZES.small,
+    borderWidth: .5,
+    borderColor: COLORS.lightWhite,
+    backgroundColor: COLORS.error
+  },
+
   formMessage: {
     padding: SIZES.small / 1.5,
-    color: COLORS.gray,
+    color: COLORS.white,
     fontFamily: FONT.bold,
     textAlign: 'center',
     alignSelf: 'center',
   },
   loader: {
     height: 2,
-    backgroundColor: COLORS.gray,
+    backgroundColor: COLORS.white,
     alignSelf: 'center',
     borderRadius: SIZES.small / 2,
   },

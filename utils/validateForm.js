@@ -1,61 +1,63 @@
 const validateField = (fieldName, value, formData = {}, requiredFields = []) => {
-  // return 'Hi';
   const validators = {
+    name: (value) => {
+      return value.length < 2 ? 'Name must be at least 2 characters long' : null;
+    },
     email: (value) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(value) ? null : 'Invalid email address';
     },
     phone: (value) => {
-      // const phoneRegex = /^\+?[1-9]\d{1,14}$/; // international
       const phoneRegex = /^0[1-9]\d{9}$/; // Local
       return phoneRegex.test(value) ? null : 'Invalid phone number';
     },
     emailOrPhone: (value) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (emailRegex.test(value)) {
-        return null;
-      }
-
-      // If not an email, check if it's a valid phone number
       const phoneRegex = /^0[1-9]\d{9}$/; // Local
-      if (phoneRegex.test(value)) {
-        return null;
-      }
-
-      return 'Invalid email or phone number';
+      return emailRegex.test(value) || phoneRegex.test(value)
+        ? null
+        : 'Invalid email or phone number';
     },
     password: (value) => {
-      if (value.length < 8) {
-        return 'Password must be at least 8 characters long';
-      }
-      if (!/[A-Z]/.test(value)) {
-        return 'Password must contain at least one uppercase letter';
-      }
-      if (!/[a-z]/.test(value)) {
-        return 'Password must contain at least one lowercase letter';
-      }
-      if (!/[0-9]/.test(value)) {
-        return 'Password must contain at least one number';
-      }
+      if (value.length < 8) return 'Password must be at least 8 characters long';
+      if (!/[A-Z]/.test(value)) return 'Password must contain at least one uppercase letter';
+      if (!/[a-z]/.test(value)) return 'Password must contain at least one lowercase letter';
+      if (!/[0-9]/.test(value)) return 'Password must contain at least one number';
       return null;
     },
     confirmPassword: (value, formData) => {
-      if (value !== formData.password) {
-        return 'Passwords do not match';
-      }
-      return null;
+      return value !== formData.password ? 'Passwords do not match' : null;
     },
     firstName: (value) => {
-      if (value.length < 2) {
-        return 'Name must be at least 2 characters long';
-      }
-      return null;
+      return value.length < 2 ? 'Name must be at least 2 characters long' : null;
     },
     lastName: (value) => {
-      if (value.length < 2) {
-        return 'Name must be at least 2 characters long';
-      }
-      return null;
+      return value.length < 2 ? 'Name must be at least 2 characters long' : null;
+    },
+    address_line1: (value) => {
+      return value.length < 2 ? 'Address must be at least 2 characters long' : null;
+    },
+    state: (value) => {
+      return value.length < 2 ? 'State must be at least 2 characters long' : null;
+    },
+    city: (value) => {
+      return value.length < 2 ? 'City must be at least 2 characters long' : null;
+    },
+    // New Validations
+    cardHolderName: (value) => {
+      return value.length < 2 ? 'Cardholder name must be at least 2 characters long' : null;
+    },
+    cardNumber: (value) => {
+      const cardNumberRegex = /^\d{16}$/; // 16 digits for a standard card number
+      return cardNumberRegex.test(value) ? null : 'Invalid card number';
+    },
+    expDate: (value) => {
+      const expDateRegex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/; // Format MM/YY
+      return expDateRegex.test(value) ? null : 'Invalid expiration date (MM/YY)';
+    },
+    cvv: (value) => {
+      const cvvRegex = /^\d{3,4}$/; // 3-4 digits for CVV
+      return cvvRegex.test(value) ? null : 'Invalid CVV';
     },
   };
 
@@ -73,7 +75,6 @@ const validateField = (fieldName, value, formData = {}, requiredFields = []) => 
   return null; // No errors
 };
 
-
 const validateForm = (formData, requiredFields) => {
   const errors = {};
 
@@ -83,7 +84,7 @@ const validateForm = (formData, requiredFields) => {
       errors[field] = error;
     }
   }
-  
+
   return errors;
 };
 

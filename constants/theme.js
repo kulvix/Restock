@@ -4,6 +4,7 @@ const COLORS = {
   lightPrimary: '#c8f3e6',
 
   error: "#E01D1D",
+  lightError: "#ffeeee",
   success: "#00A57A",
   alert: "#ffa627",
 

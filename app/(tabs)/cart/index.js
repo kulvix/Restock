@@ -3,17 +3,17 @@ import { useState } from "react";
 import { StatusBar, StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import { Stack } from "expo-router";
 import { COLORS, icons, images, SIZES, FONT } from '../../../constants';
-import { CartTabs, CartItems, CartFooter, CartEmpty, CartScreen } from '../../../components';
+import { CartTabs, CartScreen, CartFooter, CartEmpty } from '../../../components';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function Index () {
-	const [isEmpty, setIsEmpty] = useState(true);
-	const [selecetedTab, setSelecetedTab] = useState(1);
-	const [selecetedTabScreen, setSelecetedTabScreen] = useState('My Cart');
+	const [selectedTabScreen, setSelectedTabScreen] = useState('My Cart');
+  // console.log(selectedTab);
 
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+      <StatusBar translucent backgroundColor="transparent" barStyle="dark-content" />
 			<Stack.Screen 
 				options = {{
 				headerStyle: { backgroundColor: COLORS.lightWhite },
@@ -27,19 +27,11 @@ export default function Index () {
 				}} 
 			/> 
 
-			<View style={{flex: 1}}>
-				<View style={{padding: SIZES.medium, paddingTop: 0}}>
-					{/* <CartScreen /> */}
-					<CartTabs 
-						selecetedTab = {selecetedTab} 
-						setSelecetedTab = {setSelecetedTab} 
-						setSelecetedTabScreen = {setSelecetedTabScreen} />
-				</View>
-																						
-				<CartItems selecetedTabScreen = {selecetedTabScreen} cartState={setIsEmpty} />
 
-				{/* <CartFooter cartState={setIsEmpty} /> */}
-				<LinearGradient
+			<View style={{flex: 1}}>
+        <CartScreen />
+				
+        <LinearGradient
 					colors={['transparent', COLORS.white, COLORS.white]}
 					style={{
 						position: 'absolute',

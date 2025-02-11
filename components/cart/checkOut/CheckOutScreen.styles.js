@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 	card: (item, selectedDelivery) => ({
 		flex: 1,
 		flexDirection: 'row',
-		justifyContent: 'space-around',
+		justifyContent: 'space-between',
 		alignItems: 'center',
 		borderRadius: SIZES.small,
 		// backgroundColor: item == selectedDelivery  ? COLORS.lightPrimary : COLORS.white,
@@ -36,32 +36,43 @@ const styles = StyleSheet.create({
 		borderRadius: SIZES.large,
 	}),
 	cardDetailBox: {
-		paddingHorizontal: SIZES.large
+    width: "70%",
+		paddingHorizontal: SIZES.xSmall,
 	},
+  cardSubtitleBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: SIZES.xSmall / 2,
+  },
 	cardTitleText: {
 		textAlign: 'left',
 		fontFamily: FONT.bold,
 		fontSize: SIZES.medium,
 	},
 	cardSubtitleText: {
-		width: 170,
+		width: "100%",
 		textAlign: 'left',
 		fontFamily: FONT.regular,
-		fontSize: SIZES.xSmall,
-		lineHeight: 14,
+		fontSize: SIZES.small,
+		lineHeight: SIZES.large,
 		color: COLORS.gray,
+    paddingVertical: SIZES.xSmall / 2,
 	},
+  cardSubtitleIcon: {
+    fontSize: SIZES.small
+  },
 	editBtnBox: {
-
+    width: "100%",
 	},
 	editBtnText: {
-		padding: 5,
+		padding: SIZES.xSmall / 2,
 		backgroundColor: COLORS.lightWhite,
 		fontSize: SIZES.medium,
 		borderWidth: SIZES.xSmall / 8,
 		borderColor: '#eee',
 		borderRadius: SIZES.small / 2,
 	},
+  
 
 
 	// Payment method styles /////////////////////////////

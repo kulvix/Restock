@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View,
   Text,
@@ -11,52 +11,64 @@ import {
   Keyboard,
   Image,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
 import styles from './RecoverPasswordScreen.style';
 import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter } from 'expo-router';
 import axios from 'axios';
+import { getBaseURL } from '../../../../utils/apiConfig';
+import { AuthContext } from '../../../../components/contexts/AuthContext';
 
+import ErrorMessage from '../../../../components/common/form/ErrorMessage';
+import validateForm from '../../../../utils/validateForm';
 
 const RecoverPasswordScreen = () => {
-
   const router = useRouter();
-  const [categories, setCategories] = useState([]);
-  const [loadingCategories, setLoadingCategories] = useState(true);
-
+  const [loading, setLoading] = useState(false);
 	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+  const [formMessage, setFormMessage] = useState();
+  const [formFieldErrors, setFormFieldErrors] = useState();
+  const [formValidated, setFormValidated] = useState(false);
+  const [isError, setIsError] = useState(false);
 
+  const { recoverPassword, user } = useContext(AuthContext);
 
-
-  // const BASE_URL = 'http://192.168.127.87:3001/api';
-  const BASE_URL = 'http://192.168.147.87:3001/auth';
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-  
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/categories`);
-      setCategories(response.data);
-      setLoadingCategories(false);
-    } catch (error) {
-      console.error('Error fetching categories:', error.message);
-      setLoadingCategories(false);
+	const handleRecoverPassword = async () => {
+    if (!formValidated) {
+      setFormMessage('Please enter details correctly.');
+      setIsError(true);
+      return
     }
-  };
-
-	const handleLogin = async () => {
-		console.log('Recover password clicked');
-    router.push("profile/auth/resetPassword");
-		// try {
-		//     await signUp({ name, email, password, phone });
-		// } catch (err) {
-		//     console.error(err);
-		// }
+    setLoading(true);
+    try {
+      await recoverPassword(email);
+      setFormMessage('Check your mail for instructions to recover your password');
+      setIsError(true);
+      setLoading(false);
+      router.replace({
+        pathname: "/profile/auth/resetPasswordToken",
+        params: { email },
+      });
+    } catch (error) {
+      setFormMessage(error.message || 'An unexpected error occurred.');
+      setIsError(true);
+    }
 	};
+
+  const handleBlur = (field) => {
+    const credentials = { email: email };
+    const requiredFields = ['email'];
+    const errors = validateForm(credentials, requiredFields);
+    if (Object.keys(errors).length > 0) {
+      setFormFieldErrors(errors);
+    } else {
+      setFormFieldErrors();
+      setFormValidated(true);
+      console.log("error: "+ errors, "validated: "+formValidated);
+    }
+  }
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -75,7 +87,12 @@ const RecoverPasswordScreen = () => {
                 style={styles.imageIcon}
               />
             </View> */}
-
+            
+            <ErrorMessage
+              formMessage={formMessage}
+              isError={isError}
+              onDismiss={() => setIsError(false)}
+            />
             <View style={styles.formBody}>
               <TextInput
                 value={email}
@@ -84,12 +101,28 @@ const RecoverPasswordScreen = () => {
                 keyboardType="email-address"
                 placeholder="Enter account email address"
                 style={styles.input}
+                onBlur={() => handleBlur('email')}
               />
+
+              <Text style={styles.inputFieldErrorText}>{formFieldErrors?.email ? formFieldErrors.email : ""}</Text>
+                {/* {formFieldErrors?.email &&
+                  (
+                    <Text style={styles.inputFieldErrorText}>
+                      {formFieldErrors.email || ""}
+                    </Text>
+                  )
+                } */}
             </View>
             <View style={styles.formBtnSection}>
               <Text style={styles.formTitle}>Recover password</Text>
+              <LottieView
+                source={require('../../../../assets/loaders/loader.json')}
+                autoPlay
+                loop
+                style={[styles.loaderIcon, loading ? { display: 'flex' } : { display: 'none' }]}
+              />
               <Pressable
-                onPress={handleLogin}
+                onPress={handleRecoverPassword}
                 style={({ pressed }) => [
                   styles.formBtn,
                   pressed && styles.formBtnPressed,

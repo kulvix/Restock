@@ -32,7 +32,7 @@ return (
 				headerTitle: "",
 				headerTitleAlign: "center",
 				headerTitleStyle: {fontFamily: FONT.bold, fontSize: SIZES.medium, color: COLORS.black},
-			}} 
+			}}
 		/> 
 
 		<ScrollView showsVerticalScrollIndicator={false}>

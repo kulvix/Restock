@@ -10,12 +10,14 @@ const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.72 : width * 0.74;
 export default function SectionItem ({ item, scrollX, index, SPACING, ITEM_SIZE, EMPTY_ITEM_SIZE }) 
 {
     const inputRange = [
-			(index - 2) * ITEM_SIZE,
-			(index - 2) * ITEM_SIZE,
-			(index - 2) * ITEM_SIZE,
-			// (index - 2) * ITEM_SIZE, // Previous slide
-			// (index - 1) * ITEM_SIZE, // Current slide
-			// index * ITEM_SIZE, // Next slide
+      (index - 2) * ITEM_SIZE, // Previous slide
+			(index - 1) * ITEM_SIZE, // Current slide
+			index * ITEM_SIZE, // Next slide
+      
+      // All on the same line
+			// (index - 2) * ITEM_SIZE,
+			// (index - 2) * ITEM_SIZE,
+			// (index - 2) * ITEM_SIZE,
 		];
 
 		const translateY = scrollX.interpolate({
@@ -50,9 +52,7 @@ export default function SectionItem ({ item, scrollX, index, SPACING, ITEM_SIZE,
 
 const styles = StyleSheet.create({
 	sectionContainer: {
-		// flex: 1,
 		justifyContent: "center",
-		// top: 0
 	},
 	image: {
 		borderRadius: SIZES.large,

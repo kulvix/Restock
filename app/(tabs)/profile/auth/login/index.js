@@ -50,6 +50,7 @@ const Login = ({ navigation }) => {
 					<Stack.Screen
 						options={{
 							headerStyle: { backgroundColor: COLORS.lightWhite },
+              headerShown: false,
 							headerShadowVisible: false,
 							// headerRight: ({ color, size }) => (
 							// 	<Ionicons name="settings-outline" size={SIZES.xLarge} color={COLORS.white} />

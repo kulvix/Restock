@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { View, Text, FlatList, TouchableOpacity, Image, Pressable, Dimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { SIZES } from '../../constants';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import styles from './categoriesScreen.style'
 import axios from 'axios';
+import { getBaseURL } from '../../utils/apiConfig';
+import { ProductContext } from '../../components/contexts/ProductContext';
+import { useCart } from '../../components/contexts/CartContext';
+import ProductListItem from '../home/productDetails/ProductListItem/ProductListItem';
 
 
 
@@ -14,7 +18,7 @@ const CategoryItems = ({ item, width }) => {
     return <View style={styles.itemInvisible} />
   }
   return (
-    <Pressable style={styles.sectionBody(width)}>
+    <Pressable style={styles.productItem(width)}>
       <Image source={item.image} style={[styles.image(width)]} />
       <View style={styles.productDetailBox}>
         <Text style={styles.productName} numberOfLines={1}>{item.type}</Text>
@@ -44,98 +48,115 @@ const formatData = (data, numColumns) => {
   return data;
 }
 
-const CategoriesScreen = ({ category }) => {
+
+
+
+
+const CategoriesScreen = ({ targetCategoryTab }) => {
+
+  const { cart, updateCart } = useCart();
+
+
   const width = Dimensions.get('window').width * 0.8;
-  
+
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(category);
-  
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [loadingCategories, setLoadingCategories] = useState(true);
+  const { getProductsByCategory, fetchCategories } = useContext(ProductContext);
 
-  const BASE_URL = 'http://192.168.147.87:3001/server';
+  // Fetch categories
+  const fetchAndSetCategories = async () => {
+    const allCategories = await fetchCategories();
+    setCategories(allCategories);
 
+    // If targetCategoryTab is defined, navigate to it; otherwise, select the first category
+    if (targetCategoryTab) {
+      setSelectedCategory(targetCategoryTab);
+      fetchProducts(targetCategoryTab);
+    } else if (allCategories.length > 0) {
+      const defaultCategory = allCategories[0].category_name; // Default to the first category
+      setSelectedCategory(defaultCategory);
+      fetchProducts(defaultCategory);
+    }
+  };
+
+  // Fetch products for a category
+  const fetchProducts = async (category) => {
+    if (!category) return;
+    const categoryProducts = await getProductsByCategory(category);
+    setFilteredProducts(categoryProducts);
+  };
+
+  // Handle manual category selection
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    fetchProducts(category);
+  };
+
+  // Handle updates to targetCategoryTab
   useEffect(() => {
-    fetchCategories();
+    if (targetCategoryTab && targetCategoryTab !== selectedCategory) {
+      setSelectedCategory(targetCategoryTab);
+      fetchProducts(targetCategoryTab);
+    }
+  }, [targetCategoryTab]);
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    fetchAndSetCategories();
   }, []);
 
-  useEffect(() => {
-    if (selectedCategory) {
-      fetchProductsByCategory(selectedCategory);
-      setSelectedCategory(selectedCategory)
-    } else {
-      fetchProductsByCategory('Beverages');
-      setSelectedCategory('Beverages')
-    }
-  }, [selectedCategory]);
 
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(`${BASE_URL}/categories`);
-      setCategories(response.data);
-      if (response.data.length > 0) {
-        setSelectedCategory(category);
-      }
-      setLoadingCategories(false);
-    } catch (error) {
-      console.error('Error fetching categories:', error.message);
-      setLoadingCategories(false);
-    }
-  };
-
-  const fetchProductsByCategory = async (category) => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`${BASE_URL}/products/${encodeURIComponent(category)}`);
-      setFilteredProducts(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching products:', error.message);
-      setLoading(false);
-    }
-  };
-
+  // console.log(" >> Product Type Item >> ", filteredProducts);
 
   return (
     <View style={styles.container}>
       <View style={styles.tabsContainer}>
         <FlatList
           data={categories}
+          horizontal
           showsHorizontalScrollIndicator={false}
-          horizontal={true}
-          bounces={true}
           keyExtractor={(item) => item.category_name}
-          renderItem={({ item }) => 
-            <TouchableOpacity 
-              style={styles.tabs(selectedCategory, item.category_name)} 
-              onPress={() => {
-                setSelectedCategory(item.category_name);
-              }}>
-              <Text style={styles.tabText(selectedCategory, item.category_name)}>{item.category_name}</Text>
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.tabs(selectedCategory, item.category_name)}
+              onPress={() => handleCategoryChange(item.category_name)}
+            >
+              <Text style={styles.tabText(selectedCategory, item.category_name)}>
+                {item.category_name}
+              </Text>
             </TouchableOpacity>
-          } 
+          )}
         />
       </View>
-
-      <View>
-      <FlatList
-        data={formatData(filteredProducts, 2)}
-        showsVerticalScrollIndicator={false}
-        bounces={true}
-        keyExtractor={(item) => item.sku}
-        numColumns={2}
-        renderItem={({ item }) => (
-          <View key={item.sku} style={styles.productContainer}>
-            <CategoryItems key={item.sku} item={item} width={width} />
-          </View>
-        )}
-        contentContainerStyle={{ paddingBottom: 180 }}
-      />
+      <View style={styles.productsContainer}>
+        <FlatList
+          data={filteredProducts}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <ProductListItem item={item} key={item.sku} updateCart={updateCart} cart={cart} />
+          )}
+          contentContainerStyle={{ paddingBottom: 180 }}
+        />
       </View>
+      {/* <View style={styles.productsContainer}>
+        <FlatList
+          data={formatData(filteredProducts, 2)}
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+          renderItem={({ item }) => (
+            // <CategoryItems key={item.sku} item={item} width={width} />
+            <ProductListItem item={item} key={item.sku} updateCart={updateCart} cart={cart} />
+          )}
+          contentContainerStyle={{ paddingBottom: 180 }}
+        />
+      </View> */}
     </View>
   );
 };
+
+
+
 
 export default CategoriesScreen;
 

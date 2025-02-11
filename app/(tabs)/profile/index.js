@@ -1,15 +1,21 @@
 import React, { useState, useContext } from "react";
-import { StatusBar, StyleSheet, View, ScrollView, SafeAreaView } from "react-native";
+import { StatusBar, StyleSheet, View, ScrollView, SafeAreaView, Pressable } from "react-native";
 import { Stack } from "expo-router";
 import { COLORS, icons, SIZES, FONT } from '../../../constants';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { ProfileDetails, ProfileButtons } from '../../../components';
+import { ProfileDetails, ProfileButtons, ProfileScreen } from '../../../components';
 import { LinearGradient } from "expo-linear-gradient";
 import { Redirect, useRouter } from 'expo-router';
 import { AuthContext } from '../../../components/contexts/AuthContext';
 
 
 export default function Index() {
+    const [isModalVisible, setModalVisible] = useState(false);
+  
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
+
     const [loggedIn, setLoggedIn] = useState(false); // Change this logic based on your authentication
     const router = useRouter();
     const { user, logout } = useContext(AuthContext);
@@ -26,7 +32,9 @@ export default function Index() {
 							headerStyle: { backgroundColor: COLORS.primary },
 							headerShadowVisible: false,
 							headerRight: ({ color, size }) => (
-								<Ionicons name="settings-outline" size={SIZES.xLarge} color={COLORS.white} />
+								<Pressable onPress={toggleModal}>
+                  <Ionicons name="settings-outline" size={SIZES.xLarge} color={COLORS.white} />
+                </Pressable>
 							),
 							headerTitle: "Profile",
 							headerTitleAlign: "center",
@@ -37,10 +45,7 @@ export default function Index() {
 					<ScrollView showsVerticalScrollIndicator={false}>
 						{user ? (
 							<View style={{ flex: 1 }}>
-								<ProfileDetails />
-								<View style={{ flex: 1, padding: SIZES.medium, paddingTop: 0 }}>
-									<ProfileButtons />
-								</View>
+								<ProfileScreen isModalVisible={isModalVisible} toggleModal={toggleModal} />
 							</View>
 						) : (
 							// Navigate to the login screen when not logged in

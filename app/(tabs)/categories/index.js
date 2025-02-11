@@ -13,6 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function Index () {
   
 	const { item } = useLocalSearchParams();
+  
 
 	// console.log(item); return;
 	// if (item) {
@@ -35,7 +36,7 @@ export default function Index () {
                 /> 
 
                     <View style={{flex:1, padding: SIZES.medium, paddingTop: 0}}>
-											<CategoriesScreen category={item} />
+											<CategoriesScreen targetCategoryTab={item || 'Groceries'} />
                     </View>
 							
 										<LinearGradient

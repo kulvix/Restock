@@ -68,7 +68,14 @@ const styles = StyleSheet.create({
 		height: SIZES.xxLarge * 2.5,
 	},
   
-  
+  inputFieldErrorText: {
+		fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+		alignSelf: 'flex-end',
+    color: COLORS.error,
+    marginBottom: SIZES.small,
+  },
+
   formBody: {
     marginHorizontal: SIZES.small,
     // paddingVertical: SIZES.small,
@@ -77,8 +84,13 @@ const styles = StyleSheet.create({
 		fontFamily: FONT.bold,
     fontSize: SIZES.medium,
   },
+
+
+
+  inputBox: {
+    // marginBottom: SIZES.small,
+  },
 	input: {
-    marginBottom: SIZES.small,
     height: SIZES.xLarge * 2,
     padding: SIZES.small,
     borderWidth: 0.2,
@@ -87,7 +99,49 @@ const styles = StyleSheet.create({
     borderColor: COLORS.gray,
     fontFamily: FONT.regular,
     fontSize: SIZES.medium,
+    marginBottom: SIZES.medium
 	},
+	inputError: {
+    borderWidth: 0.5,
+    borderRadius: SIZES.small,
+    borderColor: COLORS.error,
+	},
+  showPasswordIconBox: {
+    position: 'absolute',
+    // backgroundColor: COLORS.error,
+    top: SIZES.small / 4,
+    borderRadius: SIZES.small,
+    alignSelf: 'flex-end',
+    padding: SIZES.small,
+  },
+  showPasswordIcon: {
+    fontSize: SIZES.large,
+    color: COLORS.gray,
+  },
+  loaderIcon: {
+    width: SIZES.xxLarge,
+    height: SIZES.xxLarge,
+  },
+
+
+
+
+
+
+
+
+
+	// input: {
+  //   marginBottom: SIZES.small,
+  //   height: SIZES.xLarge * 2,
+  //   padding: SIZES.small,
+  //   borderWidth: 0.2,
+  //   backgroundColor: COLORS.white,
+  //   borderRadius: SIZES.small,
+  //   borderColor: COLORS.gray,
+  //   fontFamily: FONT.regular,
+  //   fontSize: SIZES.medium,
+	// },
 	formBtnSection: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',

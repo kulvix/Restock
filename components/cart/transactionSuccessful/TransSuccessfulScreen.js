@@ -19,7 +19,7 @@ return (
 			<Image source={require('../../../assets/icons/tick-circle.png')} style={styles.tickImage} />
 			<Text style={styles.title}>Transaction Successful</Text>
 
-			<TouchableOpacity style={styles.btn1} onPress={()=>{router.push({pathname: '/(tabs)/cart/'})}}>
+			<TouchableOpacity style={styles.btn1} onPress={()=>{router.replace({pathname: '/(tabs)/cart/'})}}>
 				<Text style={styles.btn1Text}>Continue shopping</Text>
 			</TouchableOpacity>
 			<TouchableOpacity style={styles.btn2} onPress={()=>{alert("Shared")}}>

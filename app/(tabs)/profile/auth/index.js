@@ -34,7 +34,7 @@ return (
 
 		<ScrollView showsVerticalScrollIndicator={false}>
 			<View style={{flex:1,paddingTop: 0, paddingBottom: SIZES.xxLarge * 3 }}>
-                <LoginScreen />
+        <LoginScreen />
 			</View>
 		</ScrollView>
 	</SafeAreaView>

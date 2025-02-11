@@ -18,7 +18,7 @@ export const CartProvider = ({ children }) => {
     loadCart();
   }, []);
 
-  // Correct the totalItems calculation to sum quantities properly
+  // Calculate total items in the cart
   const totalItems = Object.values(cart).reduce((acc, item) => acc + (item.quantity || 0), 0);
 
   // Function to update the cart
@@ -27,8 +27,22 @@ export const CartProvider = ({ children }) => {
     await AsyncStorage.setItem('cart', JSON.stringify(newCart));
   };
 
+  // Function to remove a single item from the cart
+  const removeItemFromCart = async (itemKey) => {
+    const newCart = { ...cart };
+    delete newCart[itemKey]; // Remove the item from the cart
+    setCart(newCart);
+    await AsyncStorage.setItem('cart', JSON.stringify(newCart));
+  };
+
+  // Function to clear the cart
+  const clearCart = async () => {
+    setCart({});
+    await AsyncStorage.removeItem('cart');
+  };
+
   return (
-    <CartContext.Provider value={{ cart, totalItems, updateCart }}>
+    <CartContext.Provider value={{ cart, totalItems, updateCart, removeItemFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

@@ -6,13 +6,22 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: SIZES.large,
   },
+  innerContainer: {
+    flex: 1,
+    justifyContent: "space-between",
+    marginHorizontal: SIZES.small,
+  },
+  welcomeText: {
+    fontSize: SIZES.xxLarge,
+    fontFamily:FONT.heavy,
+    letterSpacing: -2,
+    marginBottom: 20
+  },
   searchWrapper: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: "space-between",
     alignItems: "center",
-    marginHorizontal: SIZES.small,
-    // marginRight: SIZES.small,
   },
   searchInputContainer: {
     backgroundColor: COLORS.white,

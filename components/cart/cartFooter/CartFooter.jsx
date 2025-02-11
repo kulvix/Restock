@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, useWindowDimensions } from 'react-native';
 import styles from './CartFooter.style';
+import { PaymentScreen } from '../../../components';
 import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
 // import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
@@ -54,6 +55,7 @@ const CartFooter = ({subtotal, shippingFee, vat, totalAmount, btnText, btnRoute,
                 })
             }>
               <Text style={styles.btntext}>{btnText}</Text>
+              {/* <PaymentScreen /> */}
             </TouchableOpacity>
           </View>
         </View>
@@ -74,6 +76,7 @@ const CartFooter = ({subtotal, shippingFee, vat, totalAmount, btnText, btnRoute,
           <View style={styles.btnBox}>
             <TouchableOpacity 
               style={styles.btn}
+              // onPress={() => <PaymentScreen />
               onPress={() =>
                 router.push({
                   pathname: btnRoute,

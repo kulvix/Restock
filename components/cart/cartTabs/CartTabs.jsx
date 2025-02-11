@@ -6,23 +6,13 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { SIZES } from '../../../constants';
 
 
-
-
-
 const Tabs = [
-  {id: '1', name: 'My Cart'},
-  {id: '2', name: 'Current Orders'},
+  {id: 1, name: 'My Cart'},
+  {id: 2, name: 'Current Orders'},
 ]
 
-const CartTabs = (selecetedTab, setSelecetedTabScreen) => {
-  
-  // const [selecetedTab, setSelecetedTab] = useState(1);
-  // const [selecetedTabScreen, setSelecetedTabScreen] = useState('My Cart');
-  
-  const selected = selecetedTab.selecetedTab;
-  const setSelected = selecetedTab.setSelecetedTab;
-  const setSelectScreen = selecetedTab.setSelecetedTabScreen;
-  
+const CartTabs = ({ selectedTab, setSelectedTab }) => {
+
   return (
     <View style={styles.container}>
       <View style={styles.tabBox}>
@@ -36,23 +26,14 @@ const CartTabs = (selecetedTab, setSelecetedTabScreen) => {
           keyExtractor={(item) => item.id}
           contentContainerStyle= {{columnGap: SIZES.small, flexGrow: 1, justifyContent: 'center'}}
           renderItem={({ item }) => 
-            <TouchableOpacity style={styles.tabBtn (selected, item.id)} 
+            <TouchableOpacity style={styles.tabBtn (selectedTab, item.id)} 
               onPress={() => {
-                setSelected(item.id)
-                setSelectScreen(item.name)
+                setSelectedTab(item.id)
                 }}>
-              <Text style={styles.tabTitle(selected, item.id)}>{item.name}</Text>
+              <Text style={styles.tabTitle(selectedTab, item.id)}>{item.name}</Text>
             </TouchableOpacity>
               
         } />
-
-        {/* <TouchableOpacity style={styles.tabBtn(selected)} onPress={switchTab}>
-          <Text style={styles.tabTitle(selected)}>My Cart</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.tabBtn(selected)} onPress={switchTab}>
-          <Text style={styles.tabTitle(selected)}>Current orders</Text>
-        </TouchableOpacity> */}
       </View>
     </View>
   )

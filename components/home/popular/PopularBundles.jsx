@@ -53,7 +53,8 @@ const Slides = [
 
 
 const favArray = [];
-const BundleItems = ({ item, favourite, setFavourite, router }) => {  
+const BundleItems = ({ item, favourite, setFavourite, router }) => {
+  // console.log(item);
 
   return (
     <Pressable style={styles.sectionBody}>
@@ -68,7 +69,12 @@ const BundleItems = ({ item, favourite, setFavourite, router }) => {
               <Ionicons name='heart-outline' size={SIZES.xxLarge} style={styles.heartIcon(favourite, item)} />
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.sectionBtn} onPress={() => router.push({pathname: "/(tabs)/bundles"})}>
+          <TouchableOpacity style={styles.sectionBtn}
+            onPress={() => router.push({
+              pathname: "/(tabs)/bundles/bundleDetails",
+              params: { item: encodeURIComponent(JSON.stringify(item)) } // Encode JSON
+            })}
+          >
             <Ionicons name='eye' size={SIZES.xLarge / 2} style={styles.eyeIcon} />
             <Text style={styles.sectionBtnText}> View</Text> 
           </TouchableOpacity>

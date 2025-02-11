@@ -1,11 +1,13 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
+import { getBaseURL } from '../../utils/apiConfig';
+
 export const ProductContext = createContext();
 
-// const SERVER_URL = 'http://192.168.127.87:3001/api/products';
-const SERVER_URL = 'http://192.168.147.87:3001/server/products';
-
+const BASE_URL = getBaseURL();
+const SERVER_URL = `${BASE_URL}/server`;
+// console.log(SERVER_URL);
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
@@ -14,7 +16,7 @@ export const ProductProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get(SERVER_URL);
+        const response = await axios.get(`${SERVER_URL}/products`);
         setProducts(response.data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
@@ -22,12 +24,42 @@ export const ProductProvider = ({ children }) => {
         setLoading(false);
       }
     };
-    
+
     fetchProducts();
   }, []);
 
+  // Function to get products by category
+  const getProductsByCategory = async (category) => {
+    // console.log(`${SERVER_URL}/products/${category}`);
+    try {
+      const response = await axios.get(`${SERVER_URL}/products/${category}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Failed to fetch products for category ${category}:`, error);
+      return [];
+    }
+  };
+  
+  
+  // Function to get categories
+  const fetchCategories = async () => {
+    // console.log(`${SERVER_URL}/categories`);
+    try {
+      const response = await axios.get(`${SERVER_URL}/categories`);
+      return response.data;
+    } catch (error) {
+      console.error(`Failed to fetch categories:`, error);
+      return [];
+    }
+  };
+
   return (
-    <ProductContext.Provider value={{ products, loading }}>
+    <ProductContext.Provider value={{ 
+      products,
+      loading,
+      getProductsByCategory,
+      fetchCategories
+    }}>
       {children}
     </ProductContext.Provider>
   );

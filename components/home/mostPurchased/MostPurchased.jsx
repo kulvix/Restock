@@ -125,6 +125,7 @@ const MostPurchasedItems = ({ item, router }) => {
 
 const MostPurchased = () => {
     const { products, loading } = useContext(ProductContext);
+
     if (loading) {
       // Loader
     }
@@ -139,7 +140,7 @@ const MostPurchased = () => {
         {/* <TouchableOpacity style={styles.sectionHeaderBtn} onPress={()=> { router.push({pathname: "/(tabs)/categories/"})}}>
           <Text style={styles.sectionHeaderBtnText}>See more <Ionicons name="chevron-forward" /></Text>
         </TouchableOpacity> */}
-        <TouchableOpacity style={styles.sectionHeaderBtn} onPress={()=> {router.push({pathname: "/(tabs)/bundles/"})}}>
+        <TouchableOpacity style={styles.sectionHeaderBtn} onPress={()=> {router.push({pathname: "/(tabs)/home/products"})}}>
           <Text style={styles.sectionHeaderBtnText}>See more</Text>
           <Ionicons name="chevron-forward" style={styles.arrowIcon} />
         </TouchableOpacity>

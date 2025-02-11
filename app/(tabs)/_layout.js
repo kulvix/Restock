@@ -15,12 +15,6 @@ import { CartProvider } from '../../components/contexts/CartContext';
 const TabsLayout = () => {
     const router = useRouter();
 
-    const gotoProfile = () => {
-      if (router.push("(tabs)/profile")) {
-        alert('Ok')
-      }
-    }
-
     return (
       // <Tabs screenOptions={{
       //   headerShown: false,
@@ -43,8 +37,9 @@ const TabsLayout = () => {
                 options={{
                   tabBarLabel: "Home", 
                   title: "Home",
-                  tabBarIcon: ({color, size}) => (<AntDesign name="home" size={SIZES.large} color={color} />)}} 
-                  />
+                  tabBarIcon: ({color, size}) => (<AntDesign name="home" size={SIZES.large} color={color} 
+                />)}} 
+              />
 
               <Tabs.Screen 
                 name = "categories" 
@@ -55,6 +50,26 @@ const TabsLayout = () => {
                     backgroundColor: COLORS.primary,
                   },
                   tabBarIcon: ({color, size}) => (<Ionicons name="grid-outline" size={SIZES.large} color={color} />)}} />
+              <Tabs.Screen 
+                name = "search" 
+                options={{
+                  tabBarLabel: "Search", 
+                  title: "Search",
+                  tabBarBadgeStyle: {
+                    backgroundColor: COLORS.primary,
+                  },
+                  tabBarIcon: ({color, size}) => (<Ionicons name="search-outline" size={SIZES.large} color={color} />)}} 
+              />
+              
+              {/* <Tabs.Screen 
+                name = "search" 
+                options={{
+                  tabBarLabel: "Search", 
+                  title: "Search",
+                  tabBarBadgeStyle: {
+                    backgroundColor: COLORS.primary,
+                  },
+                  tabBarIcon: ({color, size}) => (<Ionicons name="search-outline" size={SIZES.large} color={color} />)}} /> */}
 
               <Tabs.Screen 
                 name = "bundles" 
@@ -89,8 +104,8 @@ const TabsLayout = () => {
                     //     </View>
                     //     ),
                   tabBarIcon: ({color, size}) => (<Ionicons name="person-outline" size={SIZES.large} color={color} />)}} /> 
-                  
-                  </Tabs>
+              
+            </Tabs>
           </CartProvider>
         </ProductProvider>
       </AuthProvider>

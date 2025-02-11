@@ -4,7 +4,6 @@ import { FONT, SIZES, COLORS } from "../../../constants";
 
 const styles = StyleSheet.create({
 
-
   container: (width) => ({
     // flex: 1,
     backgroundColor: COLORS.white,
@@ -15,7 +14,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: SIZES.large * 2,
     borderTopRightRadius: SIZES.large * 2,
 
-    paddingBottom: SIZES.xxLarge * 3,
+    paddingBottom: SIZES.xxLarge * 2.5,
 
     ...Platform.select({
       ios: {

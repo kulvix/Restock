@@ -10,7 +10,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartBadge from '../../cart/cartBadge/CartBadge';
 import { useCart } from '../../../components/contexts/CartContext';
-
+import { getBaseURL } from '../../../utils/apiConfig';
 
 
 
@@ -24,14 +24,15 @@ const ProductDetailScreen = ( {itemDetails}) => {
 
 
 	// Replace with your backend's base URL
-	// const BASE_URL = 'http://192.168.127.87:3001/api';
-	const BASE_URL = 'http://192.168.147.87:3001/server';
+	// const SERVER_URL = 'http://192.168.127.87:3001/api';
+  const BASE_URL = getBaseURL();
+	const SERVER_URL = `${BASE_URL}/server`;
 	
 
 	useEffect(() => {
 		const getProductTypes = async () => {
 			try {
-				const response = await axios.get(`${BASE_URL}/producttypes/${itemDetails.product_id}`);
+				const response = await axios.get(`${SERVER_URL}/producttypes/${itemDetails.product_id}`);
 				setProductItems(response.data);
 				setLoading(false);
 			} catch (err) {
@@ -104,7 +105,7 @@ const ProductDetailScreen = ( {itemDetails}) => {
 			<View style={styles.section2}>
 				<Text style={styles.sectionTitle}>Select type</Text>
 				<View style={styles.listItemsContainer}>
-					{productItems.map((item) => {    
+					{productItems.map((item) => {
 						return (
 							<ProductListItem item={item} key={item.type_id} updateCart={updateCart} cart={cart} />
 						)

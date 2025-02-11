@@ -36,16 +36,17 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.small,
   },
   btn: {
-    width: '70%',
+    // width: '70%',
     alignSelf: 'center',
-    backgroundColor: COLORS.primary,
     padding: SIZES.xSmall,
     borderRadius: SIZES.small / 2,
+    borderWidth: 1,
+    borderColor: COLORS.primary,
   },
   btnText: {
     fontFamily: FONT.heavy,
     fontSize: SIZES.small,
-    color: COLORS.white,
+    color: COLORS.primary,
     textAlign: 'center',
   },
 

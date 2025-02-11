@@ -33,13 +33,15 @@ const LoginScreen = () => {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
-  const [emailOrPhone, setEmailOrPhone] = useState("");
+  const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
   const [formMessage, setFormMessage] = useState();
   const [formFieldErrors, setFormFieldErrors] = useState();
   const [isError, setIsError] = useState(false);
   const [formValidated, setFormValidated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const [messageType, setMessageType] = useState();
 
 
   const { login, user } = useContext(AuthContext);
@@ -84,23 +86,23 @@ const LoginScreen = () => {
   };
 
   const handleBlur = (field) => {
-    const credentials = { emailOrPhone: emailOrPhone, password: password };
-    const requiredFields = ['emailOrPhone', 'password'];
+    const credentials = { email: email };
+    const requiredFields = ['email', 'password'];
 
     const errors = validateForm(credentials, requiredFields);
 
-    if (field === 'emailOrPhone') {
-        setFormFieldErrors((prevErrors) => ({
-          ...prevErrors, 
-          [field]: 'Invalid email or phone number',
-        }));
-    } else {
-      // Generic error handling for other fields
-      setFormFieldErrors((prevErrors) => ({
-        ...prevErrors,
-        [field]: errors[field] || '',
-      }));
-    }
+    // if (field === 'email') {
+    //     setFormFieldErrors((prevErrors) => ({
+    //       ...prevErrors, 
+    //       [field]: 'Invalid email or phone number',
+    //     }));
+    // } else {
+    //   // Generic error handling for other fields
+    //   setFormFieldErrors((prevErrors) => ({
+    //     ...prevErrors,
+    //     [field]: errors[field] || '',
+    //   }));
+    // }
 
     if (Object.keys(errors).length > 0) {
       setFormFieldErrors(errors);
@@ -118,16 +120,18 @@ const LoginScreen = () => {
       return
     }
     setLoading(true);
-
-    const credentials = { emailOrPhone: emailOrPhone, password: password }; 
+    const credentials = { email: email, password: password };
     try {
       await login(credentials);
+      setMessageType('success')
       setFormMessage('Login successful');
       setIsError(true);
       setLoading(false);
       router.replace("/(tabs)/profile");
     } catch (error) {
       setFormMessage(error.message || 'An unexpected error occurred.');
+      setMessageType('error');
+      setLoading(false);
       setIsError(true);
     }
   };
@@ -136,7 +140,7 @@ const LoginScreen = () => {
   const normalizeInput = (value) => {
   if (value.includes('@')) {
     // Treat as email
-    setEmailOrPhone(value);
+    setEmail(value);
   } else {
     // Treat as phone number
     let normalized = value.replace(/\s/g, ''); // Remove spaces
@@ -149,24 +153,11 @@ const LoginScreen = () => {
       normalized = '0' + normalized;
     }
 
-    setEmailOrPhone(normalized.replace(/[^0-9]/g, '')); // Keep only numbers
+    setEmail(normalized.replace(/[^0-9]/g, '')); // Keep only numbers
   }
 };
   
-
-  // const handleInputChange = (input) => {
-  //   // Remove all non-digit characters
-  //   let sanitizedInput = input.replace(/\D/g, '');
-  
-  //   // Ensure the input starts with 0
-  //   if (sanitizedInput.length > 0 && sanitizedInput[0] !== '0') {
-  //     sanitizedInput = '0' + sanitizedInput.slice(1);
-  //   }
-  
-  //   return sanitizedInput;
-  // };
-  
-  const sanitizeEmailOrPhone = (value) => {
+  const sanitizeemail = (value) => {
     return value.replace(/[+\s]/g, ''); // Remove spaces and '+' signs
   };
   
@@ -222,19 +213,20 @@ const LoginScreen = () => {
               <ErrorMessage
                 formMessage={formMessage}
                 isError={isError}
+                messageType={messageType}
                 onDismiss={() => setIsError(false)} // Reset error state when dismissed
               />
               <View style={styles.inputBox}>
                 <TextInput
-                  value={emailOrPhone}
-                  onChangeText={(text) => setEmailOrPhone(sanitizeEmailOrPhone(text))}
+                  value={email}
+                  onChangeText={(text) => setEmail(sanitizeemail(text))}
                   autoCapitalize="none"
                   keyboardType="email-address"
-                  placeholder="Email address or Phone number"
-                  style={[styles.input, formFieldErrors?.emailOrPhone ? styles.inputError : '']}
-                  onBlur={() => handleBlur('emailOrPhone')}
+                  placeholder="Email address"
+                  style={[styles.input, formFieldErrors?.email ? styles.inputError : '']}
+                  onBlur={() => handleBlur('email')}
                 />
-                <Text style={styles.inputFieldErrorText}>{formFieldErrors?.emailOrPhone ? formFieldErrors.emailOrPhone : ""}</Text>
+                <Text style={styles.inputFieldErrorText}>{formFieldErrors?.email ? formFieldErrors.email : ""}</Text>
               </View>
               <View style={styles.inputBox}>
                 <TextInput

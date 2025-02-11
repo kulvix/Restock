@@ -6,14 +6,15 @@ const styles = StyleSheet.create({
 
 
   container: {
-    // flex: 1,
     flexDirection: 'row',
     position: 'absolute',
-    bottom: SIZES.xLarge,
+    // bottom: SIZES.xLarge,
+    bottom: 0,
     justifyContent: 'space-between',
     paddingVertical: SIZES.small,
-    marginHorizontal: SIZES.xLarge,
-    borderRadius: SIZES.large * 2,
+    // marginHorizontal: SIZES.xLarge,
+    borderTopRightRadius: SIZES.large * 2,
+    borderTopLeftRadius: SIZES.large * 2,
     backgroundColor: COLORS.white,
     alignItems: 'center',
 
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
         shadowRadius: 15,
       },
       android: {
-        shadowColor: 'rgba(0, 0, 0, 0.5)',
+        shadowColor: 'rgba(0, 0, 0, 0.8)',
         elevation: 15,
       },
     }),

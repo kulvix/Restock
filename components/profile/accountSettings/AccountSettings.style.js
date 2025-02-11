@@ -5,34 +5,50 @@ import { FONT, SIZES, COLORS } from "../../../constants";
 const styles = StyleSheet.create({
 
 
-  container: (width) => ({
-    backgroundColor: COLORS.white,
-    position: 'absolute',
-    bottom: 0,
-    width: width,
-    padding: SIZES.large,
+  container: {
+    flex: 1,
     paddingBottom: SIZES.xSmall,
-    borderTopLeftRadius: SIZES.large * 2,
-    borderTopRightRadius: SIZES.large * 2,
-  }),
+  },
 
   menuItem: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: COLORS.white,
     padding: SIZES.small,
     borderRadius: SIZES.xSmall,
     marginBottom: SIZES.xSmall,
   },
+  logout: {
+    backgroundColor: COLORS.error,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logoutItemText: {
+    color: COLORS.white,
+  },
+  iconTitle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
   menuItemText: {
     fontFamily: FONT.bold,
-    fontSize: SIZES.regular,
+    fontSize: SIZES.medium,
     color: COLORS.black,
     marginLeft: SIZES.medium,
   },
-
+  subTitleBox: {
+    margin: 0,
+    paddingVertical: SIZES.small,
+  },
+  subTitle: {
+    fontFamily: FONT.bold,
+    fontSize: SIZES.medium,
+    color: COLORS.gray,
+  }
 
 
 

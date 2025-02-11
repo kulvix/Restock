@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
-
+import { getBaseURL } from '../../../utils/apiConfig';
 
 
 const CategoryItems = ({ item }) => {
@@ -50,8 +50,8 @@ const ProductCategories = () => {
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
 
-  // const BASE_URL = 'http://192.168.127.87:3001/api';
-  const BASE_URL = 'http://192.168.147.87:3001/server';
+  const BASE_URL = getBaseURL();
+  const SERVER_URL = BASE_URL+'/server';
 
   useEffect(() => {
     fetchCategories();
@@ -59,7 +59,7 @@ const ProductCategories = () => {
   
   const fetchCategories = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/categories`);
+      const response = await axios.get(`${SERVER_URL}/categories`);
       setCategories(response.data);
       setLoadingCategories(false);
     } catch (error) {
@@ -92,13 +92,9 @@ const ProductCategories = () => {
         overScrollMode="never"
         scrollEventThrottle={16}
 
-
-
-
         renderItem={({ item, index }) => 
-          <CategoryItems
-            item={item} 
-        />}
+          <CategoryItems item={item} />
+      }
 			/>
     </View>
   )

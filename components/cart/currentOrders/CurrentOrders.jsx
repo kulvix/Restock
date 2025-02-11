@@ -8,6 +8,7 @@ import CartFooter from './../cartFooter/CartFooter';
 import { useRouter } from 'expo-router';
 import { useCart } from '../../../components/contexts/CartContext';
 import CartEmpty from '../cartEmpty/CartEmpty';
+import CartListItem from '../cartListItem/CartListItem';
 
 
 
@@ -30,25 +31,25 @@ const groupCartItems = (cart) => {
   return Object.values(groupedItems);
 };
 
-
-
 const Item = ({ item, updateCart }) => {
   // const handleRemove = () => {
   //   updateCart(item, 'remove');
   // };
 
+
   return (
-    <View style={styles.itemContainer}>
-      <View style={styles.rightSectionBox}>
-        <View style={styles.detailBox}>
-          <Text style={styles.itemTitle}>{item.type_name}</Text>
-          <Text style={styles.itemDetails}>{item.price} x {item.quantity}</Text>
-        </View>
-        <TouchableOpacity style={styles.deleteIconBox}>
-          <Ionicons name='trash' size={20} style={styles.deleteIcon} />
-        </TouchableOpacity>
-      </View>
-    </View>
+    <CartListItem item={item} />
+    // <View style={styles.itemContainer}>
+    //   <View style={styles.rightSectionBox}>
+    //     <View style={styles.detailBox}>
+    //       <Text style={styles.itemTitle}>{item.type_name}</Text>
+    //       <Text style={styles.itemDetails}>{item.price} x {item.quantity}</Text>
+    //     </View>
+    //     <TouchableOpacity style={styles.deleteIconBox}>
+    //       <Ionicons name='trash' size={20} style={styles.deleteIcon} />
+    //     </TouchableOpacity>
+    //   </View>
+    // </View>
   );
 };
 
@@ -58,6 +59,8 @@ const formatCurrency = (amount) => {
 
 const CartItems = ({ selectedTabScreen }) => {
   const { cart, updateCart } = useCart();
+
+  // console.log("Cart State in CartItems:", cart);
   const [isEmpty, setIsEmpty] = useState(true);
 
   // Group items
@@ -84,7 +87,7 @@ const CartItems = ({ selectedTabScreen }) => {
           <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, padding: SIZES.medium, paddingTop: 0 }}>
             {
               groupedItems.map((item) => (
-                <Item key={item.type_name} item={item} updateCart={updateCart} />
+                <CartListItem key={item.type_name} item={item} updateCart={updateCart} />
               ))
             }
           </ScrollView>

@@ -9,14 +9,14 @@ const styles = StyleSheet.create({
   },
   tabsContainer: {
     flexDirection: 'row',
-    paddingBottom: SIZES.small,
+    // paddingBottom: SIZES.small,
   },
   tabs: (selectedCategory, item) => ({
-    marginRight: SIZES.small,
+    marginRight: SIZES.xSmall,
     alignSelf: 'flex-start',
-    padding: SIZES.small,
+    padding: SIZES.xSmall,
     backgroundColor: selectedCategory === item ? COLORS.primary : COLORS.white,
-    borderRadius: SIZES.xSmall,
+    borderRadius: SIZES.xSmall / 2,
   }),
   tabText: (selectedCategory, item) => ({
     fontFamily: FONT.regular,
@@ -28,16 +28,15 @@ const styles = StyleSheet.create({
 
 
 
-  productContainer: {
+  productsContainer: {
     flex: 1,
     paddingTop: SIZES.large,
-    alignItems: 'center',
   },
 
-  sectionBody: (width) =>  ({
-    width: width / 2,
+  productItem: (width) =>  ({
+    margin: SIZES.xSmall,
+    // width: width / 2,
     backgroundColor: COLORS.white,
-    alignItems: 'left',
     borderRadius: SIZES.small,
 
     ...Platform.select({

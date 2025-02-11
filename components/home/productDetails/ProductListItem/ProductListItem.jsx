@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useCart } from '../../../../components/contexts/CartContext';
@@ -6,16 +6,26 @@ import styles from './ProductListItem.style';
 
 const ProductListItem = ({ item }) => {
   const { cart, updateCart } = useCart();
-  const currentQuantity = cart[item.type_id]?.quantity || 0;
+  // console.log(cart);
+
+
+  const [currentQuantity, setCurrentQuantity] = useState(cart[item.type_id]?.quantity || 0);
+
+  useEffect(() => {
+    setCurrentQuantity(cart[item.type_id]?.quantity || 0);
+  }, [cart]); // Re-run when cart updates
+
 
   const increment = () => {
+    // console.log("Clicked!", currentQuantity, item);
     if (currentQuantity < item.quantity) {
       const newCart = {
         ...cart,
         [item.type_id]: {
           ...cart[item.type_id], // Retain other details
-          type_name: item.type_name,
+          type_name: item.type_name || item.type,
           price: item.price,
+          type_id: item.type_id,
           image_url: item.image_url,
           quantity: currentQuantity + 1, // Increment quantity
         },
@@ -30,8 +40,9 @@ const ProductListItem = ({ item }) => {
         ...cart,
         [item.type_id]: {
           ...cart[item.type_id], // Retain other details
-          type_name: item.type_name,
+          type_name: item.type_name || item.type,
           price: item.price,
+          type_id: item.type_id,
           image_url: item.image_url,
           quantity: currentQuantity - 1, // Decrement quantity
         },
@@ -40,7 +51,6 @@ const ProductListItem = ({ item }) => {
       if (newCart[item.type_id].quantity === 0) {
         delete newCart[item.type_id];
       }
-
       updateCart(newCart);
     }
   };
@@ -53,9 +63,9 @@ const ProductListItem = ({ item }) => {
       />
       <View style={styles.rightSectionBox}>
         <View style={styles.detailBox}>
-          <Text style={styles.itemTitle}>{item.type_name}</Text>
+          <Text style={styles.itemTitle}>{item.type_name || item.type}</Text>
           <Text style={styles.itemDetails}>{item.unit}</Text>
-          <Text style={styles.itemPrice}>{item.price}</Text>
+          <Text style={styles.itemPrice}>{`\u20A6${item.price}`}</Text>
         </View>
 
         <View style={styles.inputSection}>

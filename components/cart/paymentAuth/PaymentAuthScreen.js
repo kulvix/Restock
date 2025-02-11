@@ -19,7 +19,7 @@ return (
 		<View style={styles.body}>
 			<Text style={styles.title}>Enter Transaction Pin</Text>
 			<TextInput secureTextEntry={true} style={styles.passwordField} keyboardType='numeric' maxLength={6} />
-			<TouchableOpacity style={styles.btn} onPress={()=>{alert('Transaction Authorized!'); router.push({pathname: '/(tabs)/cart/transactionSuccessful'}) }}>
+			<TouchableOpacity style={styles.btn} onPress={()=>{alert('Transaction Authorized!'); router.replace({pathname: '/(tabs)/cart/transactionSuccessful'}) }}>
 				<Text style={styles.btnText}>Authorize</Text>
 			</TouchableOpacity>
 		</View>

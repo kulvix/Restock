@@ -1,9 +1,10 @@
 // api.js
 import axios from 'axios';
+import { getBaseURL } from '../utils/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// const API_URL = 'http://localhost:3001/auth';
-const API_URL = 'http://192.168.147.87:3001/auth';
+const BASE_URL = getBaseURL();
+const SERVER_URL = `${BASE_URL}/auth`;
 
 // Set the JWT token for authenticated requests
 const setAuthToken = async (token) => {
@@ -18,7 +19,7 @@ const setAuthToken = async (token) => {
 
 // Sign Up
 export const signUp = async (userData) => {
-  const response = await axios.post(`${API_URL}/signup`, userData);
+  const response = await axios.post(`${SERVER_URL}/signup`, userData);
   if (response.data.token) {
     await setAuthToken(response.data.token);
     await AsyncStorage.setItem('user', JSON.stringify(response.data.user));
@@ -29,7 +30,7 @@ export const signUp = async (userData) => {
 // Login
 export const login = async (credentials) => {
   try {
-    const response = await axios.post(`${API_URL}/login`, credentials);
+    const response = await axios.post(`${SERVER_URL}/login`, credentials);
 
     if (response.data.token) {
       await setAuthToken(response.data.token);
@@ -37,16 +38,13 @@ export const login = async (credentials) => {
     }
     return response.data;
   } catch (error) {
-    // Axios throws an error for HTTP statuses outside 2xx
     if (error.response) {
-      // Backend-specific error message
       throw new Error(error.response.data.message || 'Login failed');
     } else {
-      // Network or other errors
       throw new Error('Network error. Please try again.');
     }
   }
-  // const response = await axios.post(`${API_URL}/login`, credentials);
+  // const response = await axios.post(`${SERVER_URL}/login`, credentials);
       
     //   if (response.data.token) {
     //     await setAuthToken(response.data.token);
@@ -58,8 +56,37 @@ export const login = async (credentials) => {
 
 // Recover Password
 export const recoverPassword = async (email) => {
-    const response = await axios.post(`${API_URL}/recover-password`, { email });
+  const response = await axios.post(`${SERVER_URL}/recover-password`, { email });
+  // console.log(response.data);
     return response.data;
+};
+
+// Verify Reset Password Token
+export const verifyResetPasswordToken = async (credentials) => {
+  try {
+    const response = await axios.post(`${SERVER_URL}/verify-reset-password-token`, credentials);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || "An error occurred during verification.");
+    } else {
+      throw new Error("Unable to connect to the server. Please try again later.");
+    }
+  }
+};
+
+// Reset Password
+export const resetPassword = async (credentials) => {
+  try {
+    const response = await axios.post(`${SERVER_URL}/reset-password`, credentials);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || "An error occurred during verification.");
+    } else {
+      throw new Error("Unable to connect to the server. Please try again later.");
+    }
+  }
 };
 
 // Get User Details
@@ -67,10 +94,27 @@ export const getUserDetails = async () => {
   const token = await AsyncStorage.getItem('token');
   if (token) {
     setAuthToken(token);
-    const response = await axios.get(`${API_URL}/me`);
+    const response = await axios.get(`${SERVER_URL}/me`);
     // console.log("Token: ", token, "Response: ", response);
     return response.data;
   }
+  return null;
+};
+
+// Get User Details
+export const getUserBillingInfo = async () => {
+  try {
+    const response = await axios.get(`${SERVER_URL}/billing-info`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response.data.message || "An error occurred")
+  }
+  // console.log(response);
+  // setAuthToken(token);
+  // const token = await AsyncStorage.getItem('token');  
+  // if (token) {
+    
+  // }
   return null;
 };
 
@@ -78,4 +122,87 @@ export const getUserDetails = async () => {
 export const logout = async () => {
     await setAuthToken(null);
     await AsyncStorage.removeItem('user');
+};
+
+
+
+
+
+
+
+
+
+
+
+// Update Personal Info
+export const updatePersonalInfo = async (credentials) => {
+  try {
+    const response = await axios.post(`${SERVER_URL}/update-personal-info`, credentials);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || "An error saving details.");
+    } else {
+      throw new Error("Unable to connect to the server. Please try again later.");
+    }
+  }
+};
+
+// Update Personal Info
+export const updateBillingInfo = async (credentials) => {
+  try {
+    const response = await axios.post(`${SERVER_URL}/update-billing-info`, credentials);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || "An error adding card.");
+    } else {
+      throw new Error("Unable to connect to the server. Please try again later.");
+    }
+  }
+};
+
+// Update Personal Info
+// export const addPaymentMethod = async (credentials) => {
+  
+//   try {
+//     const response = await axios.post(`${SERVER_URL}/add-payment-method`, credentials);
+//     return response.data;
+//   } catch (error) {
+//     if (error.response && error.response.data) {
+//       throw new Error(error.response.data.message || "An error saving details.");
+//     } else {
+//       throw new Error("Unable to connect to the server. Please try again later.");
+//     }
+//   }
+// };
+
+const getStoredUserId = async () => {
+  try {
+    const user = JSON.parse(await AsyncStorage.getItem('user'));
+    return user?.id || null; // Safely access the id or return null if undefined
+  } catch (error) {
+    console.error('Error retrieving user ID:', error);
+    return null;
+  }
+};
+
+
+export const addPaymentMethod = async (credentials) => {
+  try {
+    const userId = await getStoredUserId();
+    if (!userId) {
+      throw new Error('User not logged in. Please log in again.');
+    }
+    const payload = { ...credentials, userId };
+
+    const response = await axios.post(`${SERVER_URL}/add-payment-method`, payload);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.message || 'An error occurred while saving details.');
+    } else {
+      throw new Error('Unable to connect to the server. Please try again later.');
+    }
+  }
 };

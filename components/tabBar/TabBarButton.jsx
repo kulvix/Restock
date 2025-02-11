@@ -38,6 +38,7 @@ export default function TabBarButton({ onPress, onLongPress, isFocused, routeNam
   const icons = {
     home: (color) => <AntDesign name="home" size={SIZES.large} color={color} style={styles.tabItemIcon} />,
     categories: (color) => <Ionicons name="grid-outline" size={SIZES.large} color={color} style={styles.tabItemIcon} />,
+    search: (color) => <Ionicons name="search-outline" size={SIZES.large} color={color} style={styles.tabItemIcon} />,
     bundles: (color) => <Ionicons name="gift-outline" size={SIZES.large} color={color} style={styles.tabItemIcon} />,
     cart: (color) => <Ionicons name="cart-outline" size={SIZES.large} color={color} style={styles.tabItemIcon} />,
     profile: (color) => <Ionicons name="person-outline" size={SIZES.large} color={color} style={styles.tabItemIcon} />,
