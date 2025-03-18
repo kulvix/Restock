@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, Image, Dimensions, useWindowDimensions, TextInput } from 'react-native';
 import styles from './FooterSection.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, Pressable, FlatList } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from '../../../constants';
 
@@ -19,9 +19,9 @@ const FooterSection = () => {
 
       <View style={styles.container}>
           <View style={styles.inputSection}>
-            <TouchableOpacity style={styles.inputBtn} onPress={()=> {qty == 1 ? setQty(1) : setQty(qty - 1)}}>
+            <Pressable style={styles.inputBtn} onPress={()=> {qty == 1 ? setQty(1) : setQty(qty - 1)}}>
               <Text style={styles.inputBtnText}><Ionicons name='remove-outline' style={styles.inputIcon} /></Text>
-            </TouchableOpacity>
+            </Pressable>
             <View style={styles.inputFieldBox}>
             <TextInput
               style={styles.inputField}
@@ -29,17 +29,17 @@ const FooterSection = () => {
               keyboardType="numeric"
             />
             </View>
-            <TouchableOpacity style={styles.inputBtn} onPress={()=> setQty(qty + 1)    }>
+            <Pressable style={styles.inputBtn} onPress={()=> setQty(qty + 1)    }>
               <Text style={styles.inputBtnText}><Ionicons name='add-outline' style={styles.inputIcon} /></Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
-          <TouchableOpacity onPress={() => alert('Added to Favourite')}>
+          <Pressable onPress={() => alert('Added to Favourite')}>
             <Ionicons name='heart' style={styles.heartIcon} />
-          </TouchableOpacity>
+          </Pressable>
           
-          <TouchableOpacity style={styles.addToCartBtn} onPress={() => alert('Added to cart')}>
+          <Pressable style={styles.addToCartBtn} onPress={() => alert('Added to cart')}>
             <Text style={styles.addToCartBtnText}> <Ionicons name="cart" style={styles.cartIcon}  /> Add to Cart</Text>
-          </TouchableOpacity>
+          </Pressable>
       </View>
 
   )

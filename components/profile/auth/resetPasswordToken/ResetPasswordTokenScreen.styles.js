@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     letterSpacing: -2,
 	},
 	subTitle: {
+    marginBottom: SIZES.large,
 		textAlign: 'center',
 		fontFamily: FONT.light,
 		fontSize: SIZES.small,
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.white,
 		borderRadius: SIZES.xSmall,
 		padding: SIZES.small / 2.5,
-		marginVertical: SIZES.large,
+		marginBottom: SIZES.small,
 		textAlign: 'center',
 		fontSize: SIZES.xxLarge,
 		letterSpacing: 6,
@@ -52,6 +53,12 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontSize: SIZES.small
 	},
+  loaderIcon: {
+    width: SIZES.xxLarge,
+    height: SIZES.xxLarge,
+    margin: 'auto',
+    marginBottom: SIZES.small,
+  },
 
 });
 

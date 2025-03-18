@@ -31,11 +31,11 @@ export default function Index() {
 						options={{
 							headerStyle: { backgroundColor: COLORS.primary },
 							headerShadowVisible: false,
-							headerRight: ({ color, size }) => (
-								<Pressable onPress={toggleModal}>
-                  <Ionicons name="settings-outline" size={SIZES.xLarge} color={COLORS.white} />
-                </Pressable>
-							),
+							// headerRight: ({ color, size }) => (
+							// 	<Pressable onPress={toggleModal}>
+              //     <Ionicons name="settings" size={SIZES.xLarge} color={COLORS.white} />
+              //   </Pressable>
+							// ),
 							headerTitle: "Profile",
 							headerTitleAlign: "center",
 							headerTitleStyle: { fontFamily: FONT.bold, fontSize: SIZES.medium, color: COLORS.white },
@@ -52,17 +52,6 @@ export default function Index() {
 							<Redirect href="/(tabs)/profile/auth/login" />
 						)}
 					</ScrollView>
-
-					<LinearGradient
-						colors={['transparent', COLORS.white, COLORS.white]}
-						style={{
-							position: 'absolute',
-							bottom: 0,
-							left: 0,
-							right: 0,
-							height: '15%',
-						}}
-					/>
         </SafeAreaView>
     );
 }

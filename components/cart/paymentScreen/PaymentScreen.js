@@ -1,14 +1,15 @@
 import React from "react";
-import { View, Button, Alert, StyleSheet } from "react-native";
+import { View, Pressable, Alert, StyleSheet, Text } from "react-native";
 import { FlutterwaveInit, PaymentMethod } from "flutterwave-react-native";
 
 const PaymentScreen = () => {
   const handlePayment = () => {
+    console.log(FlutterwaveInit); // Debugging check
     FlutterwaveInit({
       tx_ref: `TX-${Date.now()}`,
       amount: 1000,
       currency: "NGN",
-      payment_options: PaymentMethod.Card | PaymentMethod.BankTransfer | PaymentMethod.USSD,
+      payment_options: "card,banktransfer,ussd",  // ✅ Fixed this line
       customer: {
         email: "customer@example.com",
         phonenumber: "08012345678",
@@ -19,8 +20,9 @@ const PaymentScreen = () => {
         description: "Grocery Order Payment",
         logo: "https://yourlogo.com/logo.png",
       },
-      public_key: "FLWPUBK_TEST-xxxxxxxxxxxxxxxxxxxxxx-X", // Replace with actual public key
-      is_staging: true, // Set to false in production
+      public_key: "FLWPUBK_TEST-251e243d301d21212980ea20152607c6-X", // Replace with actual public key
+      api_version: "v3",
+      is_staging: true,
     })
       .then((response) => {
         if (response.status === "successful") {
@@ -31,13 +33,19 @@ const PaymentScreen = () => {
       })
       .catch((error) => {
         console.error("Payment Error:", error);
+        // console.error("Payment Error:", JSON.stringify(error, null, 2));
         Alert.alert("Payment Error", "Something went wrong.");
       });
   };
+  
 
   return (
     <View style={styles.container}>
-      <Button title="Pay with Flutterwave" onPress={handlePayment} />
+      <Pressable style={styles.btn} onPress={handlePayment}>
+        <Text>
+          Pay with Flutterwave
+        </Text>
+      </Pressable>
     </View>
   );
 };
@@ -48,6 +56,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  btn: {
+    padding: 20,
+    backgroundColor: 'orange',
+    fontWeight: 'black',
+
+  }
 });
 
 export default PaymentScreen;

@@ -72,7 +72,7 @@ const CartItems = ({ selectedTabScreen }) => {
     return total + (isNaN(itemTotal) ? 0 : itemTotal);
   }, 0);
 
-  const shippingFee = 1500;
+  const shippingFee = 500;
   const vat = subtotal * 0.075; // 7.5% VAT
   const totalAmount = subtotal + shippingFee + vat;
 

@@ -31,11 +31,17 @@ export default function Index() {
 						options={{
 							headerStyle: { backgroundColor: COLORS.lightWhite },
 							headerShadowVisible: false,
-							headerRight: ({ color, size }) => (
-								<Pressable onPress={toggleModal}>
-                  <Ionicons name="notifications-outline" size={SIZES.xLarge} color={COLORS.grayDark} />
-                </Pressable>
-							),
+							headerRight: ({ color }) => {                
+                return (
+                  <Ionicons
+                    name="notifications"
+                    size={SIZES.xLarge}
+                    color={color}
+                    onPress={() => router.push("/notifications")} // Navigate on press
+                    style={{ marginRight: 15 }} // Add spacing if needed
+                  />
+                );
+              },
 							headerTitle: "Search",
 							headerTitleAlign: "center",
 							headerTitleStyle: { fontFamily: FONT.bold, fontSize: SIZES.medium, color: COLORS.grayDark },
@@ -47,16 +53,6 @@ export default function Index() {
             <SearchScreen isModalVisible={isModalVisible} toggleModal={toggleModal} />
           </View>
 
-					<LinearGradient
-						colors={['transparent', COLORS.white, COLORS.white]}
-						style={{
-							position: 'absolute',
-							bottom: 0,
-							left: 0,
-							right: 0,
-							height: '15%',
-						}}
-					/>
         </SafeAreaView>
     );
 }

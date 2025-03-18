@@ -20,10 +20,10 @@ const styles = StyleSheet.create({
   },
 
   sectionFooter: {
-    width: '100%',
+    // width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: SIZES.small 
+    padding: SIZES.small,
   },
 
   image: {
@@ -38,17 +38,26 @@ const styles = StyleSheet.create({
     // justifyContent: 'space-between',
     // paddingVertical: SIZES.xSmall,
     // paddingHorizontal: SIZES.small,
-    width: '50%',
     // backgroundColor: 'red',
+    width: '70%',
     alignItems: 'left',
   },
   productName: {
     textAlign: 'left',
-    fontFamily: FONT.bold,
-    fontSize: SIZES.small,
+    fontFamily: FONT.heavy,
+    fontSize: SIZES.large,
     width: 150, 
   },
   
+  description: {
+    textAlign: 'left',
+    fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+    color: COLORS.grayDark,
+    letterSpacing: -1,
+    flexWrap: 'wrap',
+    width: '100%',
+  },
   price: {
     textAlign: 'left',
     fontFamily: FONT.heavy,
@@ -61,19 +70,21 @@ const styles = StyleSheet.create({
   sectionBtnBox: {
     // flex: 1,
     // backgroundColor: 'black',
-    width: '50%',
+    width: '30%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
     // paddingHorizontal: SIZES.small,
     // paddingVertical: SIZES.xSmall
-
   },
   sectionBtn: {
     // width: '80%',
+    flexDirection: 'row',
+    gap: SIZES.xSmall / 2,
     backgroundColor: COLORS.primary,
     padding: SIZES.small / 2,
-    borderRadius: SIZES.xSmall / 2,
+    borderRadius: SIZES.xSmall / 3,
+    alignItems: 'center',
     
   },
   heartIcon: {

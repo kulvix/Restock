@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { View, Text, FlatList, TouchableOpacity, Image, Pressable, Dimensions } from 'react-native';
+import { View, Text, FlatList, Pressable, Image, Dimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { SIZES } from '../../../constants';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -18,7 +18,7 @@ const MostPurchasedItems = ({ item, router, width }) => {
       style={styles.sectionBody(width)}
       onPress={() =>
         router.push({
-          pathname: "/(tabs)/home/productDetails",
+          pathname: "/productDetails",
           params: { item: JSON.stringify(item)},
         })
       }
@@ -32,17 +32,17 @@ const MostPurchasedItems = ({ item, router, width }) => {
           <Text style={styles.currency} numberOfLines={1}>NGN</Text>
           <Text style={styles.price} numberOfLines={1}>{item.lowest_price}</Text>
         </View>
-        <TouchableOpacity style={styles.sectionBtn}
+        <Pressable style={styles.sectionBtn}
           onPress={() =>
             router.push({
-              pathname: "/(tabs)/home/productDetails",
+              pathname: "/productDetails",
               params: { item: JSON.stringify(item)},
             })
           }
         >
             <Ionicons name='eye' size={14} style={styles.sectionBtnIcon} />
             {/* <Text style={styles.sectionBtnText}>View</Text>  */}
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </Pressable>
   );

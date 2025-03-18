@@ -125,6 +125,8 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.small,
   },
   noOrdersTitleText: {
+    width: '70%',
+    alignSelf: 'center',
     paddingVertical: SIZES.large,
     fontFamily: FONT.heavy,
     fontSize: SIZES.xLarge,
@@ -156,6 +158,87 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
+
+
+
+  listContainer: {
+    flex: 1,
+    marginBottom: SIZES.xxLarge * 2,
+  },
+  card: {
+    backgroundColor: COLORS.white,
+    padding: SIZES.medium,
+    marginVertical: SIZES.small,
+    borderRadius: SIZES.small,
+    shadowColor: COLORS.gray,
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 10,
+    elevation: 10, // For Android shadow
+  },
+  orderHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  trackOrderBtn: {
+    padding: SIZES.xSmall / 2,
+    borderWidth: 1,
+    borderColor: COLORS.primary,
+    borderRadius: SIZES.xSmall / 4,
+    color: COLORS.primary, 
+  },
+  trackOrderBtnText: {
+    color: COLORS.primary, 
+  },
+  orderId: {
+    fontFamily: FONT.heavy,
+    fontSize: SIZES.large,
+    marginBottom: 5,
+    color: '#333',
+  },
+  orderDetailBox: {
+
+  },
+  orderDetailFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: SIZES.xSmall,
+    borderBottomWidth: 0.5,
+    borderBottomColor: COLORS.gray,
+  },
+  text: {
+    fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+    color: '#555',
+    marginBottom: 2,
+  },
+  status: {
+    fontSize: SIZES.small,
+    fontWeight: 'bold',
+    marginTop: 5,
+  },
+  pending: {
+    color: COLORS.alert,
+  },
+  completed: {
+    color: COLORS.primary,
+  },
+  paymentStatus: {
+    fontSize: SIZES.small,
+    fontWeight: 'bold',
+    marginTop: 5,
+  },
+  paid: {
+    color: COLORS.primary,
+  },
+  unpaid: {
+    color: COLORS.error,
+  },
+  date: {
+    fontSize: SIZES.xSmall,
+    color: '#888',
+    marginTop: 5,
+  },
 });
 
 export default styles;

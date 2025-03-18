@@ -6,7 +6,7 @@ import { COLORS, icons, images, SIZES, FONT } from '../../../constants';
 import { AuthContext } from '../../../components/contexts/AuthContext';
 
 import styles from './SearchBar.style'
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Pressable } from 'react-native-gesture-handler';
 
 const SearchBar = () => {
   const router = useRouter();
@@ -26,9 +26,9 @@ const SearchBar = () => {
             <TextInput style={styles.searchInput} placeholder='Search item' />
           </View>
 
-          <TouchableOpacity style={styles.filterBtn} onPress={() => {router.push({pathname: "/(tabs)/home/filter"})}}>
+          <Pressable style={styles.filterBtn} onPress={() => {router.push({pathname: "/(tabs)/home/filter"})}}>
             <Ionicons name='filter' size={SIZES.large} color={COLORS.white} />
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
       </View>

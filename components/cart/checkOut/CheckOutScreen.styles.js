@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.small
   },
 	editBtnBox: {
-    width: "100%",
+    // width: "100%",
 	},
 	editBtnText: {
 		padding: SIZES.xSmall / 2,

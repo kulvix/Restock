@@ -1,10 +1,11 @@
-import {React, useState} from 'react'
-import { View, Text, TouchableOpacity, FlatList, Image, Dimensions, ScrollView } from 'react-native'
+import {React, useState, useContext} from 'react'
+import { View, Text, Pressable, FlatList, Image, Dimensions, ScrollView } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { SIZES, COLORS, FONT, SHADOWS, } from "../../constants";
-
+import { BundleContext } from '../contexts/BundleContext';
 import styles from './bundles.style'
+import { useRouter } from 'expo-router';
 
 
 
@@ -63,42 +64,54 @@ const Slides = [
 const width = (Dimensions.get('window').width - 4 * 10) / 2;
 
 const BundleItems = ({ item, favColor, setFavColor }) => {
-
+  const router = useRouter();
 
   return (
-    <View style={styles.sectionBody}>
-      <Image source={item.image}  style={[styles.image]}/>
+    <Pressable  style={styles.sectionBody}
+      onPress={()=> {router.push({
+        pathname: "/bundleDetails",
+        params: { item: encodeURIComponent(JSON.stringify(item)) }
+      })}}
+    >
+      <Image source={{ uri: item.image_url }}  style={[styles.image]}/>
 
 
       <View style={styles.sectionFooter}>
         <View style={styles.productDetailBox}>
-          <Text style={styles.productName}>{item.name}</Text>
-          <Text style={styles.price} numberOfLines={1}>{item.price}</Text>
+          <Text style={styles.productName}>{item.bundle_name}</Text>
+          <Text style={styles.description} numberOfLines={1}>{item.description}</Text>
         </View>
 
         <View style={styles.sectionBtnBox}>
-            <TouchableOpacity style={styles.heartIcon} onPress={()=>{favColor == COLORS.gray ? setFavColor("red") : setFavColor(COLORS.gray) }}>
+            {/* <Pressable style={styles.heartIcon} onPress={()=>{favColor == COLORS.gray ? setFavColor("red") : setFavColor(COLORS.gray) }}>
               <Ionicons name='heart-outline' size={30} color={favColor} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.sectionBtn}>
-              <Text style={styles.sectionBtnText}><Ionicons name='eye' size={14} /> View bundle</Text> 
-            </TouchableOpacity>
+            </Pressable> */}
+            <Pressable
+              style={styles.sectionBtn}
+              onPress={()=> {router.push({
+                pathname: "/bundleDetails",
+                params: { item: encodeURIComponent(JSON.stringify(item)) }
+              })}}
+            >
+              <Ionicons name='eye' size={14} color={COLORS.white} />
+              <Text style={styles.sectionBtnText}>View bundle</Text> 
+            </Pressable>
         </View>
       </View>
-    </View>
+    </Pressable >
   )
 }
 
 
 const Bundles = () => {
-
+  const { bundles, loading } = useContext(BundleContext);
   const [favColor, setFavColor ] = useState(COLORS.gray);
 
   return (
     // <View style={styles.container}>
         <View style={styles.productContainer}>        
-          {Slides.map((slide) => {            
-            return <BundleItems key={slide.id} item={slide} favColor={favColor} setFavColor={setFavColor} />
+          {bundles.map((item) => {            
+            return <BundleItems key={item.bundle_id} item={item} favColor={favColor} setFavColor={setFavColor} />
           })}
         </View>
         

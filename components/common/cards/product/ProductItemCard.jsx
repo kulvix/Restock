@@ -19,7 +19,7 @@ const ProductItemCard = ({ item }) => {
       style={styles.sectionBody(width)}
       onPress={() =>
         router.push({
-          pathname: "/(tabs)/home/productDetails",
+          pathname: "/productDetails",
           params: { item: JSON.stringify(item)},
         })
       }
@@ -36,7 +36,7 @@ const ProductItemCard = ({ item }) => {
         <TouchableOpacity style={styles.sectionBtn}
           onPress={() =>
             router.push({
-              pathname: "/(tabs)/home/productDetails",
+              pathname: "/productDetails",
               params: { item: JSON.stringify(item)},
             })
           }

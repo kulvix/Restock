@@ -8,57 +8,66 @@ const styles = StyleSheet.create({
 
 	container: {
 		flex: 1,
-		marginTop: SIZES.xLarge * 4,
+		// marginTop: SIZES.xLarge * 2,
 		justifyContent: 'center',
 	},
 
-	tickImage: {
+
+	body: {
+		// alignSelf: 'center',
+	},
+  titleBox: {
+    padding: SIZES.xxLarge,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: SIZES.medium,
+    backgroundColor: COLORS.primary,
+    borderRadius: SIZES.xLarge,
+    // margin: SIZES.small,
+  },
+  tickImage: {
 		width: 70,
 		height: 70,
 		alignSelf: 'center',
 		borderRadius: 100,
-	},
-	body: {
-		alignSelf: 'center',
 	},
 	title: {
 		textAlign: 'center',
 		fontFamily: FONT.heavy,
 		fontSize: SIZES.large,
 		color: COLORS.white,
-		marginTop: SIZES.xLarge,
-		marginBottom: SIZES.xLarge * 2,
 	},
+	subTitle: {
+		textAlign: 'center',
+		fontFamily: FONT.regular,
+		fontSize: SIZES.medium,
+		color: COLORS.grayDark,
+	},
+
+  btnBox: {
+    padding: SIZES.large,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: SIZES.xSmall,
+  },
 	
-	btn1: {
-		width: '100%',
+	btn: {
+		width: 80,
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
 		borderRadius: SIZES.xSmall / 2,
+    borderWidth: 1,
+    borderColor: COLORS.primary,
 		backgroundColor: COLORS.white,
-		padding: SIZES.xSmall,
-		alignSelf: 'center',
-		marginBottom: SIZES.small,
+		// marginBottom: SIZES.small,
 	},
-	btn1Text: {
+	btnText: {
 		fontFamily: FONT.bold,
 		color: COLORS.primary,
 		textAlign: 'center',
-		fontSize: SIZES.small
-	},
-
-	btn2: {
-		width: '100%',
-		borderWidth: 1,
-		borderColor: COLORS.white,
-		borderRadius: SIZES.xSmall / 2,
-		padding: SIZES.xSmall,
-		alignSelf: 'center',
-		marginBottom: SIZES.small,
-	},
-	btn2Text: {
-		fontFamily: FONT.bold,
-		color: COLORS.white,
-		textAlign: 'center',
-		fontSize: SIZES.small
+		fontSize: SIZES.xSmall
 	},
 
 });

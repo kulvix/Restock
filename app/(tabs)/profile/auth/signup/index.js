@@ -50,16 +50,6 @@ const SignUp = () => {
 					<SignUpScreen />
 				{/* </ScrollView> */}
 
-				<LinearGradient
-					colors={['transparent', COLORS.white, COLORS.white]}
-					style={{
-						position: 'absolute',
-						bottom: 0,
-						left: 0,
-						right: 0,
-						height: '15%',
-					}}
-				/>
       </SafeAreaView>
     );
 };

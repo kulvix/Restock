@@ -4,14 +4,16 @@ import { FONT, SIZES, COLORS } from "../../../../constants";
 
 const styles = StyleSheet.create({
   itemContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '100%',
+    flexDirection: 'column',
     justifyContent: 'flex-start',
     marginBottom: SIZES.small,
-    borderRadius: SIZES.small,
+    borderRadius: SIZES.xSmall / 2,
     backgroundColor: COLORS.white,
-    padding: SIZES.xSmall,
+
+    width: '23%',
+    aspectRatio: 1,
+    marginBottom: 10,
+    alignItems: 'flex-start',
 
     ...Platform.select({
       ios: {
@@ -27,167 +29,45 @@ const styles = StyleSheet.create({
     }),
   },
   
-
-
-
-
-
-
-  
   itemImage: {
-    width: '25%',
-    height: 'auto',
+    width: "100%",
+    height: SIZES.xLarge * 2,
     resizeMode: 'cover',
-    borderRadius: SIZES.small,
-  },
-  rightSectionBox: {
-    flex: 1,
-    flexDirection: 'row',
-    padding: SIZES.small,
-    justifyContent: 'space-between',
-    gap: 5,
+    borderTopRightRadius: SIZES.xSmall / 2,
+    borderTopLeftRadius: SIZES.xSmall / 2,
   },
   detailBox: {
-    width: '60%'
+    paddingHorizontal: SIZES.xSmall / 4,
+    gap: 5,
   },
   itemTitle: {
     fontFamily: FONT.heavy,
-    fontSize: SIZES.xxLarge / 2.3,
+    fontSize: SIZES.small ,
   },
   itemDetails: {
     fontFamily: FONT.regular,
-    fontSize: SIZES.small,
-    color: COLORS.gray,
-    marginBottom: SIZES.small
+    fontSize: SIZES.xSmall,
+    color: COLORS.white,
+    // marginBottom: SIZES.small
+  },
+  quantityBox: {
+    position: 'absolute',
+    margin: 0,
+    top: 0,
+    right: 0,
+    flexDirection: 'row',
+    backgroundColor: COLORS.black,
+    padding: SIZES.xSmall / 4,
+    borderRadius: SIZES.xSmall / 4,
+    borderTopLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    gap: 2,
   },
   itemPrice: {
     fontFamily: FONT.bold,
-    fontSize: SIZES.small,
+    fontSize: SIZES.xSmall,
     color: COLORS.black,
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-  inputSection: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: 5,
-    alignItems: 'center',
-    borderRadius: SIZES.xSmall / 2
-  },
-  inputBtn: {
-    padding: SIZES.small / 2,
-    backgroundColor: COLORS.primary,
-    borderRadius: SIZES.xSmall / 2
-  },
-  inputBtnText: {
-    fontSize: SIZES.small,
-    color: COLORS.white,
-  },
-  inputIcon: {
-    fontSize: SIZES.small,
-    color: COLORS.white,
-    // fontWeight: '900'
-  },
-  inputFieldBox: {
-    backgroundColor: COLORS.lightWhite,
-    borderWidth: 1,
-    borderRadius: SIZES.xSmall / 2,
-    borderColor: '#eee',
-    // height: 30,
-  },
-  inputField: {
-    textAlign: 'center',
-    padding: SIZES.small / 3,
-
-  },
-  heartIcon: {
-    fontSize: SIZES.xxLarge,
-    color: COLORS.error,
-  },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  deleteIconBox: {
-    // backgroundColor: 'red',
-  },
-
-
-
-  orderContainer: {
-    width: '100%',
-    backgroundColor: COLORS.white,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    padding: SIZES.small,
-    borderRadius: SIZES.small,
-    marginBottom: SIZES.medium,
-
-  },
-  orderDetailsBox: {
-
-  },
-  orderId: {
-    fontFamily: FONT.heavy,
-    fontSize: SIZES.medium,
-    textTransform: 'uppercase',
-    color: COLORS.black,
-  },
-  detailText: {
-    fontFamily: FONT.regular,
-    fontSize: SIZES.large / 2,
-    color: COLORS.gray,
-    lineHeight: 20,
-  },
-  trackOrderBtn: {
-    backgroundColor: COLORS.primary,
-    padding: SIZES.small / 2,
-    paddingHorizontal: SIZES.small,
-    borderRadius: SIZES.xSmall / 2,
-  },
-  trackOrderBtnText: {
-    textTransform: 'uppercase',
-    fontFamily: FONT.bold,
-    fontSize: SIZES.large / 2,
-    textAlign: 'center',
-    color: COLORS.white,
-  },
-
-
-
-
 
 
 });

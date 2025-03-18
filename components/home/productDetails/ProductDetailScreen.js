@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ImageBackground } from 'react-native';
-import { ScrollView, TouchableOpacity, FlatList, Image } from 'react-native-gesture-handler';
+import { ScrollView, FlatList, Image } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS, SIZES, FONT } from "../../../constants";
 import styles from './ProductDetailScreen.style';
@@ -77,6 +77,8 @@ const ProductDetailScreen = ( {itemDetails}) => {
   //   });
   // };
 
+  // console.log(productItems);
+  
 	return (
 		<View style={styles.container}>
 			<View style={styles.imageBox}>

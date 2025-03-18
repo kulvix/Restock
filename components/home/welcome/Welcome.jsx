@@ -1,14 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, 
-        View, 
-        Dimensions, 
-        Animated,
-        Platform, } from 'react-native';
+import { StyleSheet, View, Dimensions, Animated, Platform, } from 'react-native';
 
 import Slides from './slides';
 import SectionItem from './sectionItem';
 import { COLORS } from '../../../constants';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -18,14 +15,11 @@ const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / ITEM_SIZE;
 
 
 const WelcomeBanner = ({ navigation }) => {
-
+  
   const scrollX = useRef(new Animated.Value(0)).current;
 	const slidesRef = useRef(null);
-
-
   return (
     <View style={styles.container}>
-
       <Animated.FlatList
         data={Slides}
         horizontal={true}

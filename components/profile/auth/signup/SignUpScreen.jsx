@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 import styles from './SignUpScreen.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { LinearGradient } from "expo-linear-gradient";
 import Video from 'react-native-video';
@@ -26,25 +26,29 @@ import axios from 'axios';
 import { AuthContext } from '../../../../components/contexts/AuthContext';
 import ErrorMessage from '../../../../components/common/form/ErrorMessage';
 import validateForm from '../../../../utils/validateForm';
+import { useNotifications } from '../../../../components/contexts/NotificationContext';
 
 
 const SignUpScreen = () => {
 
   const router = useRouter();
+  const { sendPushNotification } = useNotifications();
 
   const [loading, setLoading] = useState(false);
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
-	const [emailOrPhone, setEmailOrPhone] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
   const [formMessage, setFormMessage] = useState();
   const [formFieldErrors, setFormFieldErrors] = useState();
-  const [isError, setIsError] = useState(false);
+  const [isError, setIsError] = useState(true);
   const [formValidated, setFormValidated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [messageType, setMessageType] = useState();
   
   
   const { signUp, user } = useContext(AuthContext);
@@ -107,27 +111,27 @@ const SignUpScreen = () => {
 
   const handleBlur = (field) => {
     const credentials = {
-      emailOrPhone: emailOrPhone,
+      email: email,
       firstName: firstName,
       lastName: lastName,
       password: password,
       confirmPassword: confirmPassword,
     }
-    const requiredFields = ['emailOrPhone', 'password', 'firstName', 'lastName', 'confirmPassword'];
+    const requiredFields = ['email', 'password', 'confirmPassword'];
     const errors = validateForm(credentials, requiredFields);
 
-    if (field === 'emailOrPhone') {
-        setFormFieldErrors((prevErrors) => ({
-          ...prevErrors, 
-          [field]: 'Invalid email or phone number',
-        }));
-    } else {
-      // Generic error handling for other fields
-      setFormFieldErrors((prevErrors) => ({
-        ...prevErrors,
-        [field]: errors[field] || '',
-      }));
-    }
+    // if (field === 'email') {
+    //     setFormFieldErrors((prevErrors) => ({
+    //       ...prevErrors, 
+    //       [field]: 'Invalid email',
+    //     }));
+    // } else {
+    //   // Generic error handling for other fields
+    //   setFormFieldErrors((prevErrors) => ({
+    //     ...prevErrors,
+    //     [field]: errors[field] || '',
+    //   }));
+    // }
     if (Object.keys(errors).length > 0) {
       setFormFieldErrors(errors);
     } else {
@@ -143,7 +147,7 @@ const SignUpScreen = () => {
     }
     setLoading(true);
     const credentials = {
-      emailOrPhone: emailOrPhone,
+      email: email,
       firstName: firstName,
       lastName: lastName,
       password: password,
@@ -152,23 +156,29 @@ const SignUpScreen = () => {
       await signUp(credentials);
       setLoading(true);
       setFormMessage('Signup successful');
+      sendPushNotification(
+        "Welcome to Restock!",
+        "We are happy to have you. Now you can join thousands to enjoy premium grocery restocking services, with all convinience included in each package."
+      );
       setIsError(true);
       router.replace("/(tabs)/profile");
     } catch (error) {
       setLoading(false);
-      setFormMessage(error.message || 'An unexpected error occurred.');
+      setMessageType("error")
       setIsError(true);
+      setFormMessage(error.response.data.message || error.message || 'An unexpected error occurred.');
+      console.log(isError);
     }
 	};
 
-  const sanitizeEmailOrPhone = (value) => {
+  const sanitizeEmail = (value) => {
     return value.replace(/[+\s]/g, ''); // Remove spaces and '+' signs
   };
   
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView style={{ flex: 1, marginBottom: 120, }}>
+      <ScrollView style={styles.container}>
         <KeyboardAvoidingView
           style={{ flex: 1, paddingBottom: 100 }}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -199,7 +209,7 @@ const SignUpScreen = () => {
                   style={styles.backgroundImage}
                 >
                   <LinearGradient
-                    colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 1)']}
+                    colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, .9)']}
                     style={styles.gradientOverlay}
                   />
                   <Text style={styles.headerTitle}>{slides[currentIndex].text}</Text>
@@ -212,18 +222,19 @@ const SignUpScreen = () => {
                 formMessage={formMessage}
                 isError={isError}
                 onDismiss={() => setIsError(false)}
+                messageType={messageType}
                 />
               <View style={styles.inputBox}>
                 <TextInput
-                  value={emailOrPhone}
-                  onChangeText={(text) => setEmailOrPhone(sanitizeEmailOrPhone(text))}
+                  value={email}
+                  onChangeText={(text) => setEmail(sanitizeEmail(text))}
                   autoCapitalize="none"
                   keyboardType="email-address"
-                  placeholder="Email address or Phone number"
-                  style={[styles.input, formFieldErrors?.emailOrPhone ? styles.inputError : '']}
-                  onBlur={() => handleBlur('emailOrPhone')}
+                  placeholder="Email address"
+                  style={[styles.input, formFieldErrors?.email ? styles.inputError : '']}
+                  onBlur={() => handleBlur('email')}
                 />
-                <Text style={styles.inputFieldErrorText}>{formFieldErrors?.emailOrPhone ? formFieldErrors.emailOrPhone : ""}</Text>
+                <Text style={styles.inputFieldErrorText}>{formFieldErrors?.email ? formFieldErrors.email : ""}</Text>
               </View>
               <View style={styles.inputFlexBox}>
                 <View style={styles.inputBox}>
@@ -286,6 +297,7 @@ const SignUpScreen = () => {
                 autoPlay
                 loop
                 style={[styles.loaderIcon, loading ? { display: 'flex' } : { display: 'none' }]}
+                speed={4}
               />
               <Pressable
                 onPress={handleSignUp}

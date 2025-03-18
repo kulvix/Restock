@@ -6,8 +6,10 @@ import { COLORS, icons, images, SIZES, FONT } from '../../../constants';
 import { Bundles } from '../../../components';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 
 export default function Index () {
+    const router = useRouter();
     return (
         
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -16,7 +18,16 @@ export default function Index () {
                 headerStyle: { backgroundColor: COLORS.lightWhite },
                 headerShadowVisible: false,
                 // headerLeft: () => (<ScreenHeaderBtn iconurl={icons.menu} dimension="60%" />),
-                headerRight: ({color, size}) => (<Ionicons name="notifications-outline" size={SIZES.xLarge} color={color} />),
+                headerRight: ({ color }) => {                
+                  return (
+                    <Ionicons
+                      name="notifications"
+                      size={SIZES.xLarge}
+                      color={color}
+                      onPress={() => router.push("/notifications")}
+                    />
+                  );
+                },
                 headerTitle: "Bundles",
                 headerTitleAlign: "center",
                 headerTitleAlign: "center",
@@ -25,20 +36,11 @@ export default function Index () {
             /> 
 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <View style={{flex:1, padding: SIZES.medium, paddingTop: 0, paddingBottom: 120}}>
-                        <Bundles />
-                        </View>
-                    </ScrollView>
-                <LinearGradient
-                    colors={['transparent', COLORS.white, COLORS.white]}
-                    style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: '15%',
-                    }}
-                />
+                  <View style={{flex:1, padding: SIZES.medium, paddingTop: 0, paddingBottom: 120}}>
+                    <Bundles />
+                  </View>
+                </ScrollView>
+                
         </SafeAreaView>
     )
 }

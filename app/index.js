@@ -9,6 +9,7 @@ import { View, Text, SafeAreaView, useColorScheme } from "react-native";
 import { useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
+import LottieView from 'lottie-react-native';
 
 import { COLORS, SIZES, FONT } from "../constants";
 import { StoreData, GetItemFor } from "../utils/storageHelper";
@@ -80,14 +81,23 @@ const Home = () => {
     // <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider onLayout={onLayoutRootView} style={[themeContainerStyle]}>
         <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <View>
-            <Text style={{ fontFamily: FONT.bold, fontSize: SIZES.large, color: COLORS.gray }}>
+          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            
+            <LottieView
+              source={require('../assets/loaders/loader.json')}
+              autoPlay
+              loop
+              style={{width: SIZES.xLarge * 2,  height: SIZES.xLarge * 2}}
+              speed={4}
+            />
+            {/* <Text style={{ fontFamily: FONT.bold, fontSize: SIZES.large, color: COLORS.gray }}>
               Loading your app...
-            </Text>
+            </Text> */}
           </View>
         </SafeAreaView>
       </SafeAreaProvider>
   );
 };
+
 
 export default Home;

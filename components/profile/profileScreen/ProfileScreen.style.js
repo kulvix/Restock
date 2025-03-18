@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     padding: SIZES.large,
+    paddingBottom: SIZES.xxLarge * 2
   },
   profileDetailsContainer: {
     flex: 1,

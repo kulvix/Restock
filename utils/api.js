@@ -19,6 +19,7 @@ const setAuthToken = async (token) => {
 
 // Sign Up
 export const signUp = async (userData) => {
+  console.log("Response: ");
   const response = await axios.post(`${SERVER_URL}/signup`, userData);
   if (response.data.token) {
     await setAuthToken(response.data.token);

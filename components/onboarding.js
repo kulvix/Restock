@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity, useWindowDimensions, Animated } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Pressable, useWindowDimensions, Animated } from 'react-native';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import * as Updates from 'expo-updates';
 // import { Ionicons } from '@expo/vector-icons';
@@ -60,9 +60,9 @@ export default function Onboarding({ navigation }) {
 
 			<View style={styles.btnView}>
 				<Paginator data={Slides} scrollX={scrollX} />
-				<TouchableOpacity style={styles.btn} onPress={scrollTo}>
+				<Pressable style={styles.btn} onPress={scrollTo}>
 					<Text style={styles.btnText}>{btnText} <Ionicons name='arrow-forward' size={18} /></Text>
-				</TouchableOpacity>
+				</Pressable>
 			</View>
     </View>
   )};

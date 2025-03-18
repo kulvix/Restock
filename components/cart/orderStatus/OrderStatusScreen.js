@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import styles from './OrderStatusScreen.styles';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, FlatList, Pressable } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { SIZES } from '../../../constants';
-import { useRouter } from 'expo-router';
+import { COLORS, SIZES } from '../../../constants';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 
 
@@ -13,90 +13,77 @@ import { useRouter } from 'expo-router';
 
 const OrderStatusScreen = () => {
 
-const router = useRouter();
+  const { order } = useLocalSearchParams();
+  const router = useRouter();
 
+  const currentOrder = JSON.parse(order);
+
+  const orderStatus = [
+    { key: "pending", label: "Order Confirmed", subText: "We have received your order." },
+    { key: "processing", label: "Processing order", subText: "We are preparing your order." },
+    { key: "picked_up", label: "Rider is picking up your order", subText: "Rider is picking up your order." },
+    { key: "shipped", label: "On the way", subText: "Rider is on the way." },
+    { key: "arrived", label: "Rider is at your place" },
+    { key: "delivered", label: "Delivered", subText: "You order has been delivered." },
+  ];
+
+  const currentStatusIndex = orderStatus.findIndex((s) => s.key === currentOrder.status);
+  // console.log(currentStatusIndex)
+  const createdAt = new Date(currentOrder.created_at);
+  const expectedDeliveryDate = new Date(createdAt);
+  expectedDeliveryDate.setDate(expectedDeliveryDate.getDate() + 2);
+
+  const formattedDate = expectedDeliveryDate.toLocaleDateString("en-GB");
 return (
-	<ScrollView style={styles.container}>
+	<ScrollView
+    style={styles.container}
+    showsVerticalScrollIndicator={false}
+  >
 		<View style={styles.topSection}>
 			<Image source={require('../../../assets/images/bachelor.jpg')} style={styles.itemImage} />
-			<Text style={styles.itemTitle}>Order-3089</Text>
-			<Text style={styles.itemDesc}>Delievery date: 10/12/2023</Text>
+			<Text style={styles.itemTitle}>Order-#{currentOrder.order_id}</Text>
+			<Text style={styles.itemDesc}>Expected Delivery Date: {formattedDate}</Text>
 		</View>
 
-		<TouchableOpacity style={styles.trackBtn} onPress={()=>{router.push({pathname: '/(tabs)/cart/trackOrderMap'})}}>
-			<Text style={styles.trackBtnText}>Track order on map</Text>
-		</TouchableOpacity>
+    <View style={styles.box}>
+  {orderStatus.map((step, index) => (
+    <View key={step.key} style={styles.row}>
+      <View style={styles.labelBox}>
+        {index % 2 === 0 && (
+          <>
+            <Text style={styles.labelTextLeft}>{step.label}</Text>
+            {step.subText && <Text style={styles.labelSubTextLeft}>{step.subText}</Text>}
+          </>
+        )}
+        <Text style={styles.labelSubTextLeft}></Text>
+      </View>
 
-		<View style={styles.box}>
-			<View style={styles.row}>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}>Order Confirmed</Text>
-				</View>
-				<View style={styles.circle}></View>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}></Text>
-				</View>
-			</View>
-			<View style={styles.line}></View>
+      <View>
+        <View style={[styles.circle, { borderColor: index <= currentStatusIndex ? COLORS.primary : COLORS.gray }]}>
+          {index <= currentStatusIndex && <Ionicons name="checkmark-outline" color={COLORS.primary} />}
+        </View>
+        {index < orderStatus.length - 1 && (
+          <View style={[styles.line, { borderColor: index <= currentStatusIndex ? COLORS.primary : COLORS.gray }]} />
+        )}
+      </View>
 
-
-			<View style={styles.row}>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}></Text>
-				</View>
-				<View style={styles.circle}></View>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}>Preparing order</Text>
-					<Text style={styles.labelSubText}>Takes about 24 hour</Text>
-				</View>
-			</View>
-			<View style={styles.line}></View>
-
-			<View style={styles.row}>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}>Rider is picking up your order</Text>
-				</View>
-				<View style={styles.circle}></View>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}></Text>
-				</View>
-			</View>
-			<View style={styles.line}></View>
-
-			<View style={styles.row}>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}></Text>
-				</View>
-				<View style={styles.circle}></View>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}>On the way</Text>
-				</View>
-			</View>
-			<View style={styles.line}></View>
-
-			<View style={styles.row}>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}>Rider is at your place</Text>
-				</View>
-				<View style={styles.circle}></View>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}></Text>
-				</View>
-			</View>
-			<View style={styles.line}></View>
-
-			<View style={styles.row}>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}></Text>
-				</View>
-				<View style={styles.circle}></View>
-				<View style={styles.labelBox}>
-					<Text style={styles.labelText}>Delivered</Text>
-				</View>
-			</View>
-	</View>
-
-
+      <View style={styles.labelBox}>
+        {index % 2 !== 0 && (
+          <>
+            <Text style={styles.labelTextRight}>{step.label}</Text>
+            {step.subText && <Text style={styles.labelSubTextRight}>{step.subText}</Text>}
+          </>
+        )}
+        <Text style={styles.labelSubTextRight}></Text>
+        {step.key === "shipped" && index === currentStatusIndex && (
+          <Pressable style={styles.trackBtn} onPress={() => router.push({ pathname: "/(tabs)/cart/trackOrderMap" })}>
+            <Text style={styles.trackBtnText}>Track on map</Text>
+          </Pressable>
+        )}
+      </View>
+    </View>
+  ))}
+</View>
 
 	</ScrollView>
 )}

@@ -6,8 +6,10 @@ import { COLORS, icons, images, SIZES, FONT } from '../../../constants';
 import { CartTabs, CartScreen, CartFooter, CartEmpty } from '../../../components';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 
 export default function Index () {
+  const router = useRouter();
 	const [selectedTabScreen, setSelectedTabScreen] = useState('My Cart');
   // console.log(selectedTab);
 
@@ -19,8 +21,17 @@ export default function Index () {
 				headerStyle: { backgroundColor: COLORS.lightWhite },
 				headerShadowVisible: false,
 				// headerLeft: () => (<ScreenHeaderBtn iconurl={icons.menu} dimension="60%" />),
-				headerRight: ({color, size}) => (<Ionicons name="notifications-outline" size={SIZES.xLarge} color={color} />),
-				headerTitle: "Cart",
+				headerRight: ({ color }) => {                
+          return (
+            <Ionicons
+              name="notifications"
+              size={SIZES.xLarge}
+              color={color}
+              onPress={() => router.push("/notifications")}
+            />
+          );
+        },
+        headerTitle: "Cart",
 				headerTitleAlign: "center",
 				headerTitleAlign: "center",
 				headerTitleStyle: {fontFamily: FONT.bold, fontSize: SIZES.medium, color: COLORS.black},
@@ -31,7 +42,7 @@ export default function Index () {
 			<View style={{flex: 1}}>
         <CartScreen />
 				
-        <LinearGradient
+        {/* <LinearGradient
 					colors={['transparent', COLORS.white, COLORS.white]}
 					style={{
 						position: 'absolute',
@@ -40,7 +51,7 @@ export default function Index () {
 						right: 0,
 						height: '15%',
 					}}
-				/>
+				/> */}
 			</View>
 			
 		</SafeAreaView>

@@ -8,11 +8,10 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
 
-
-
-
 const ENCRYPTION_KEY = crypto.randomBytes(32); // Replace this with a securely stored key
 const IV_LENGTH = 16; // For AES, this is always 16
+
+router.get("/", (req, res) => res.send("Auth is connected."));
 
 // Encrypt Function
 const encrypt = (text) => {
@@ -47,28 +46,22 @@ const authenticateToken = (req, res, next) => {
 };
 
 router.post('/signup', async (req, res) => {
-  const { emailOrPhone, firstName, lastName, password} = req.body;
+  // console.log("FINE 1")
+  const { email, password, firstName, lastName} = req.body;
   try {
     let userExists;
-    if (emailOrPhone.includes('@')) {
-      userExists = await req.db.query('SELECT * FROM Users WHERE email = ?', [emailOrPhone]);
-    } else {
-      userExists = await req.db.query('SELECT * FROM Users WHERE phone = ?', [emailOrPhone]);
-    }
+    userExists = await req.db.query('SELECT * FROM users WHERE email = ?', [email]);
+    
     if (userExists[0]) {
       return res.status(400).json({ message: 'User already exists' });
     }
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
      // Insert new user based on the type of input
-    if (emailOrPhone.includes('@')) {
-      await req.db.query('INSERT INTO Users (email, phone, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)', [emailOrPhone, null, hashedPassword, firstName, lastName]);
-    } else {
-      await req.db.query('INSERT INTO Users (phone, email, password, first_name, last_name) VALUES (?, ?, ?, ?, ?)', [emailOrPhone, null, hashedPassword, firstName, lastName]);
-    }
+     await req.db.query('INSERT INTO Users (email, password, first_name, last_name) VALUES (?, ?, ?, ?)', [email, hashedPassword, firstName, lastName]);
     // Retrieve the newly created user
     const newUserRes = await req.db.query(
-      'SELECT * FROM Users WHERE email = ? OR phone = ?', [emailOrPhone, emailOrPhone]
+      'SELECT * FROM Users WHERE email = ?', [email]
     );
     const newUser = newUserRes[0];
     // Generate JWT
@@ -79,6 +72,7 @@ router.post('/signup', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
 
 // Login
 router.post('/login', async (req, res) => {  

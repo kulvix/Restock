@@ -32,15 +32,15 @@ const styles = StyleSheet.create({
 	},
 
 	trackBtn: {
-		width: 140,
-    borderRadius: SIZES.xSmall / 2,
+    borderRadius: SIZES.xSmall / 3,
     backgroundColor: COLORS.primary,
-    padding: SIZES.xSmall,
-		alignSelf: 'center',
-		marginBottom: SIZES.large,
+    padding: SIZES.small / 2,
+		alignSelf: 'left',
+		width: 80,
+    marginTop: -SIZES.xSmall / 2,
 	},
 	trackBtnText: {
-		fontFamily: FONT.regular,
+    fontFamily: FONT.bold,
     color: COLORS.white,
     textAlign: 'center',
     fontSize: SIZES.xSmall
@@ -49,43 +49,66 @@ const styles = StyleSheet.create({
 
 
 	box: {
-		flex: 1
+		flex: 1,
+    paddingBottom: SIZES.xxLarge * 3,
 	},
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'center',
+    alignItems: 'flex-start',
 	},
 	labelBox: {
 
 	},
-	labelText: {
+	labelTextRight: {
 		fontFamily: FONT.bold,
     fontSize: SIZES.small,
 		width: 100,
-		// textAlign: 'center',
+		textAlign: 'left',
 	},
-	labelSubText: {
+	labelTextLeft: {
+		fontFamily: FONT.bold,
+    fontSize: SIZES.small,
+		width: 100,
+		textAlign: 'right',
+	},
+	labelSubTextRight: {
 		fontFamily: FONT.bold,
     fontSize: SIZES.xSmall,
 		color: COLORS.gray,
 		width: 100,
+    textAlign: 'left',
+	},
+	labelSubTextLeft: {
+		fontFamily: FONT.bold,
+    fontSize: SIZES.xSmall,
+		color: COLORS.gray,
+		width: 100,
+    textAlign: 'right',
 	},
 	circle: {
-		width: SIZES.xLarge,
-		height: SIZES.xLarge,
+		width: SIZES.large,
+		height: SIZES.large,
 		backgroundColor: COLORS.white,
-		borderWidth: SIZES.xSmall / 2,
-		borderColor: COLORS.primary,
+		borderWidth: 1.5,
+		// borderColor: COLORS.primary,
+		borderColor: COLORS.gray,
 		borderRadius: 20,
-		marginHorizontal: SIZES.small
+		marginHorizontal: SIZES.small,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // backgroundColor: COLORS.primary,
 	},
+  circleCheck: {
+    fontWeight: '900'
+  },
 	line: {
-		width: SIZES.xSmall / 5,
+		width: 0,
 		height: SIZES.xLarge * 2,
 		alignSelf: 'center',
 		borderStyle: 'dashed',
-		borderWidth: SIZES.xSmall / 6,
-		borderColor: COLORS.primary,
+    borderLeftWidth: 1.5,
+		// borderColor: COLORS.gray,
 	},
 
 

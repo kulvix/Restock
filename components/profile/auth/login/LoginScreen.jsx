@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 import styles from './LoginScreen.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter } from 'expo-router';
@@ -27,9 +27,10 @@ import { AuthContext } from '../../../../components/contexts/AuthContext';
 // import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
 import ErrorMessage from '../../../../components/common/form/ErrorMessage';
 import validateForm from '../../../../utils/validateForm';
+import { useNotifications } from '../../../../components/contexts/NotificationContext';
 
 const LoginScreen = () => {
-
+  const { sendPushNotification } = useNotifications();
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -42,7 +43,6 @@ const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [messageType, setMessageType] = useState();
-
 
   const { login, user } = useContext(AuthContext);
 
@@ -125,6 +125,10 @@ const LoginScreen = () => {
       await login(credentials);
       setMessageType('success')
       setFormMessage('Login successful');
+      sendPushNotification(
+        "New Login Detected!",
+        "There was a successful login on your account. If this wasn't you, please reachout to us."
+      );
       setIsError(true);
       setLoading(false);
       router.replace("/(tabs)/profile");
@@ -164,9 +168,9 @@ const LoginScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView style={{ flex: 1, marginBottom: 100, }}>
+      <ScrollView style={{ flex: 1, }}>
         <KeyboardAvoidingView
-          style={{ flex: 1, paddingBottom: 100 }}
+          style={{ flex: 1 }}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         >
           <KeyboardAwareScrollView
@@ -253,6 +257,7 @@ const LoginScreen = () => {
                 autoPlay
                 loop
                 style={[styles.loaderIcon, loading ? { display: 'flex' } : { display: 'none' }]}
+                speed={4}
               />
               <Pressable
                 onPress={handleLogin}

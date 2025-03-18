@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, Image } from 'react-native';
 import styles from './ResetPasswordTokenScreen.styles';
-import { ScrollView, TouchableOpacity, FlatList, TextInput } from 'react-native-gesture-handler';
+import LottieView from 'lottie-react-native';
+import { ScrollView, Pressable, FlatList, TextInput } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { SIZES } from '../../../../constants';
 import { useRouter } from 'expo-router';
@@ -17,16 +18,16 @@ const ResetPasswordTokenScreen = () => {
   const [isError, setIsError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formValidated, setFormValidated] = useState(false);
+  const [messageType, setMessageType] = useState('error');
 
   const { verifyResetPasswordToken } = useContext(AuthContext);
 
 const handleVerifyToken = async () => {
   if (token === "") {
-    setFormMessage('Invalid token');
+    setFormMessage('Token is required!');
     setIsError(true);
     return;
   }
-
   setLoading(true);
   const credentials = { email: email, token: token }; 
   try {
@@ -34,13 +35,17 @@ const handleVerifyToken = async () => {
     setFormMessage('Verification successful');
     setIsError(true);
     setLoading(false);
+    setMessageType("success");
     router.replace({
       pathname: "/profile/auth/resetPassword",
       params: { email },
     });
   } catch (error) {
-    setFormMessage(error.message || 'An unexpected error occurred.');
+    setMessageType("error");
+    setLoading(false);
+    // setFormMessage(error.response.data.message || error.message || 'An unexpected error occurred.');
     setIsError(true);
+    // setFormMessage(error.message || 'An unexpected error occurred.');
   }
   return;
 }
@@ -48,13 +53,14 @@ const handleVerifyToken = async () => {
 return (
 	<View style={styles.container}>
 		<View style={styles.body}>
+			<Text style={styles.title}>Enter token</Text>
+			<Text style={styles.subTitle}>Check your email for the token. Check your spam folder too.</Text>
       <ErrorMessage
         formMessage={formMessage}
         isError={isError}
         onDismiss={() => setIsError(false)}
+        messageType={messageType}
       />
-			<Text style={styles.title}>Enter token</Text>
-			<Text style={styles.subTitle}>Check your email for the token. Check your spam folder too.</Text>
 			<TextInput
         secureTextEntry={false}
         style={styles.passwordField}
@@ -63,9 +69,16 @@ return (
         value={token}
         onChangeText={setToken}
       />
-			<TouchableOpacity style={styles.btn} onPress={handleVerifyToken}>
+      <LottieView
+        source={require('../../../../assets/loaders/loader.json')}
+        autoPlay
+        loop
+        style={[styles.loaderIcon, loading ? { display: 'flex' } : { display: 'none' }]}
+        speed={4}
+      />
+			<Pressable style={styles.btn} onPress={handleVerifyToken}>
 				<Text style={styles.btnText}>Authorize</Text>
-			</TouchableOpacity>
+			</Pressable>
 		</View>
 	</View>
 )}

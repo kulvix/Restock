@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: SIZES.large * 2,
     borderTopRightRadius: SIZES.large * 2,
 
-    paddingBottom: SIZES.xxLarge * 2.5,
+    paddingBottom: SIZES.xxLarge * 2,
 
     ...Platform.select({
       ios: {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   }),
   
   innerContainer: {
-    gap: SIZES.small
+    gap: SIZES.xSmall / 4
   },
   row: {
     // flex: 1,
@@ -50,11 +50,11 @@ const styles = StyleSheet.create({
     color: COLORS.black
   },
   vatBox: {
-    width: '40%',
+    width: '70%',
   },
   disclaimerText: {
+    fontFamily: FONT.regular,
     color: COLORS.alert,
-    fontStyle: 'italic',
   },
   line: {
     height: 1,
@@ -65,7 +65,16 @@ const styles = StyleSheet.create({
     fontFamily: FONT.heavy,
     fontSize: SIZES.medium,
     color: COLORS.black,
-    marginBottom: SIZES.xSmall / 2,
+  },
+  doubleCol: {
+    flexDirection: 'row',
+    gap: SIZES.medium,
+  },
+  footerDiscountedText: {
+    fontFamily: FONT.bold,
+    fontSize: SIZES.small,
+    color: COLORS.gray,
+    textDecorationLine: 'line-through',
   },
   // btnBox: {
   //   padding: 5
@@ -74,6 +83,24 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     padding: SIZES.xSmall,
     borderRadius: SIZES.small / 2,
+    borderWidth: 2,
+    borderColor: COLORS.white, 
+  },
+  btnBadge: {
+    alignSelf: 'flex-end',
+    width: '50%',
+    marginRight: 0,
+    padding: SIZES.xSmall / 6,
+    paddingBottom: SIZES.small,
+    marginBottom: -SIZES.xSmall,
+    borderRadius: SIZES.xSmall / 2,
+    fontFamily: FONT.heavy,
+    fontSize: SIZES.small,
+    color: COLORS.white,
+    backgroundColor: COLORS.alert,
+    // borderColor: COLORS.alert,
+    // borderWidth: 1,
+    textAlign: 'center',
   },
   btntext: {
     fontFamily: FONT.heavy,
@@ -81,107 +108,6 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     textAlign: 'center',
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // container: {
-  //   marginBottom: SIZES.small,
-  // },
-  // sectionHeader: {
-  //   paddingVertical: SIZES.small,
-  //   flexDirection: "row",
-  //   justifyContent: "space-between",
-  //   alignItems: 'center'
-  // },
-  // sectionHeaderTitle: {
-  //   fontFamily: FONT.bold,
-  //   fontSize: SIZES.medium,
-  // },
-  // sectionHeaderBtn: {
-  //   justifyContent: "space-between"
-  // },
-  // sectionHeaderBtnText: {
-  //   fontSize: SIZES.small,
-  //   color: COLORS.primary
-  // },
-
-  // sectionBody: {
-  //   backgroundColor: COLORS.white,
-  //   alignItems: 'left',
-  //   marginRight: SIZES.small,
-  //   borderRadius: SIZES.small,
-  // },
-  // image: {
-  //   width: SIZES.xLarge * 5.3,
-  //   height: SIZES.xLarge * 5.3,
-  //   borderRadius: SIZES.small,
-  //   marginBottom: SIZES.xSmall / 4
-  // },
-  // productName: {
-  //   textAlign: 'left',
-  //   fontFamily: FONT.bold,
-  //   fontSize: SIZES.small,
-  //   maxWidth: SIZES.xLarge * 4.1,
-  // },
-  // productDetailBox: {
-  //   paddingHorizontal: SIZES.small
-  // },
-  // subtitle: {
-  //   textAlign: 'left',
-  //   fontFamily: FONT.regular,
-  //   fontSize: SIZES.small / 1.4,
-  //   color: COLORS.gray,
-  // },
-  // sectionFooter: {
-  //   flexDirection: 'row',
-  //   justifyContent: 'space-between',
-  //   paddingHorizontal: SIZES.small,
-  //   paddingVertical: SIZES.xSmall
-  // },
-  // price: {
-  //   textAlign: 'left',
-  //   fontFamily: FONT.heavy,
-  //   fontSize: SIZES.medium / 1.5,
-  //   color: COLORS.black,
-  //   letterSpacing: -1,
-  // },
-  // sectionBtn: {
-  //   width: 70,
-  //   // height: SIZES.large * 2,
-  //   // flexDirection:'row',
-  //   backgroundColor: COLORS.primary,
-  //   padding: SIZES.xSmall / 2,
-  //   borderRadius: SIZES.xSmall / 1.5,
-    
-  // },
-  // sectionBtnText: {
-  //   fontFamily: FONT.regular,
-  //   fontSize: SIZES.xSmall,
-  //   textTransform: 'uppercase',
-  //   textAlign: 'center',
-  //   color: COLORS.white,
-  // },
 
 });
 

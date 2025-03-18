@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 import styles from './BillingInformationScreen.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter, useLocalSearchParams } from 'expo-router';
@@ -294,6 +294,7 @@ const BillingInformationScreen = () => {
                 autoPlay
                 loop
                 style={[styles.loaderIcon, loading ? { display: 'flex' } : { display: 'none' }]}
+                speed={4}
               />
               <Pressable
                 onPress={handleUpdateInfomation}

@@ -7,7 +7,7 @@ import SearchBar from '../searchBar/SearchBar';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Redirect, useRouter, Link } from 'expo-router';
 import { COLORS, icons, images, SIZES, FONT } from '../../../constants';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Pressable } from 'react-native-gesture-handler';
 import styles from './SearchScreen.style';
 import LottieView from 'lottie-react-native';
 
@@ -53,9 +53,9 @@ const SearchScreen = () => {
                 />
               </View>
 
-              <TouchableOpacity style={styles.filterBtn} onPress={() => {router.push({pathname: "/(tabs)/home/filter"})}}>
+              <Pressable style={styles.filterBtn} onPress={() => {router.push({pathname: "/(tabs)/home/filter"})}}>
                 <Ionicons name='filter' size={SIZES.large} color={COLORS.white} />
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
 

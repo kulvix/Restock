@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
     }),
   },
   backgroundImage: {
-    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'center',
     height: SIZES.xxLarge * 8,
     padding: SIZES.small,
     paddingBottom: SIZES.large,
@@ -48,14 +49,29 @@ const styles = StyleSheet.create({
     right: 0,
     height: '40%',
   },
-  section1: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  sections: {
+    flex: 1,
+    maxHeight: 'auto',
+    marginTop: 'auto',
   },
   titleText: {
+    // maxWidth: '70%',
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
     color: COLORS.white,
+  },
+  priceText: {
+    alignSelf: 'flex-end',
+    fontFamily: FONT.bold,
+    fontSize: SIZES.large,
+    color: COLORS.white,
+  },
+  descText: {
+    // maxWidth: '70%',
+    fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+    color: COLORS.white,
+    lineHeight: SIZES.large
   },
   ratingBox: {
     flexDirection: 'row',
@@ -66,13 +82,73 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: SIZES.xSmall,
   },
+  addToCartBtn: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.primary,
+    paddingVertical: SIZES.xSmall,
+    paddingHorizontal: SIZES.medium,
+    borderRadius: SIZES.large,
+    alignSelf: 'flex-end',
+    gap: SIZES.xSmall / 2,
+  },
+  addToCartBtText: {
+    color: COLORS.white,
+    fontFamily: FONT.bold,
+  },
+  doubleBtnContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    height: SIZES.medium * 2.5,
+    backgroundColor: COLORS.primary,
+    borderRadius: SIZES.large,
+},
+  quantityBox: {
+    padding: SIZES.xSmall,
+    backgroundColor: COLORS.primary,
+    color: COLORS.white,
+    fontSize: SIZES.medium,
+    fontFamily: FONT.heavy,
+    // height: SIZES.medium * 2.5,
+    // borderRadius: SIZES.xSmall,
+  },
+  doubleBtn1: {
+
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.primary,
+    // paddingVertical: SIZES.xSmall,
+    paddingHorizontal: SIZES.medium,
+    borderTopLeftRadius: SIZES.large,
+    borderBottomLeftRadius: SIZES.large,
+    alignSelf: 'flex-end',
+    gap: SIZES.xSmall / 2,
+    height: SIZES.medium * 2.5,
+  },
+  doubleBtn2: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.primary,
+    // paddingVertical: SIZES.xSmall,
+    paddingHorizontal: SIZES.medium,
+    borderTopRightRadius: SIZES.large,
+    borderBottomRightRadius: SIZES.large,
+    alignSelf: 'flex-end',
+    gap: SIZES.xSmall / 2,
+    height: SIZES.medium * 2.5,
+  },
+  
   subTitle: {
     fontFamily: FONT.regular,
     fontSize: SIZES.small,
     color: COLORS.gray
   },
   section2: {
-    // marginBottom: SIZES.medium
+    padding: SIZES.medium
   },
   sectionTitle: {
     fontFamily: FONT.bold,
@@ -82,7 +158,9 @@ const styles = StyleSheet.create({
     marginBottom: SIZES.xSmall,
   },
   listItemsContainer: {
-    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   typeBtn: (selected, item) => ({
     // width: 'auto',
@@ -103,14 +181,9 @@ const styles = StyleSheet.create({
   }),
 
   section3: {
-    marginBottom: SIZES.medium
+    // marginBottom: SIZES.medium
   },
-  descText: {
-    fontFamily: FONT.regular,
-    fontSize: SIZES.small,
-    color: COLORS.white,
-    lineHeight: SIZES.large
-  },
+
 
 
 

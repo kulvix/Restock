@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, ImageBackground, Platform, Pressable } from 'react-native';
+import { View, Text, Image, ImageBackground, Platform } from 'react-native';
 import styles from './ProductCategories.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, Pressable, FlatList } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -72,10 +72,10 @@ const ProductCategories = () => {
     <View style={styles.container}>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionHeaderTitle}>Categories</Text>
-        <TouchableOpacity style={styles.sectionHeaderBtn} onPress={()=> {router.push({pathname: "/(tabs)/categories/"})}}>
+        <Pressable style={styles.sectionHeaderBtn} onPress={()=> {router.push({pathname: "/(tabs)/categories/"})}}>
           <Text style={styles.sectionHeaderBtnText}>See more</Text>
           <Ionicons name="chevron-forward" style={styles.arrowIcon} />
-        </TouchableOpacity>
+        </Pressable>
         
       </View>
 

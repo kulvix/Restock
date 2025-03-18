@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Pressable,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -14,7 +13,7 @@ import {
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 import styles from './PaymentMethodsScreen.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, Pressable, FlatList } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter, useLocalSearchParams } from 'expo-router';
@@ -148,15 +147,15 @@ const PaymentMethodsScreen = () => {
             contentContainerStyle={styles.container}
             showsVerticalScrollIndicator={false}
           >
-            <TouchableOpacity
+            <Pressable
               onPress={() => router.push("/(tabs)/profile/addPaymentMethods")}
               style={styles.addNewCardBtn}
             >
               <Text style={styles.btnText}>Create New Card</Text>
               <Ionicons name="add-outline" style={styles.btnIcon} />
-            </TouchableOpacity>
+            </Pressable>
             
-            <TouchableOpacity style={styles.cardContainer}>
+            <Pressable style={styles.cardContainer}>
               <ImageBackground
                 source={require('../../../assets/images/card-bg-5.jpg')}
                 style={styles.cardInnerContainer}
@@ -179,7 +178,7 @@ const PaymentMethodsScreen = () => {
                   <Text style={[styles.cardText, styles.cardCvvText]}>{cvv}</Text>
                 </View>
               </ImageBackground>
-            </TouchableOpacity>
+            </Pressable>
 
             
           </ScrollView>

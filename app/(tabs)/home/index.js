@@ -13,6 +13,7 @@ import LottieView from 'lottie-react-native';
 import { AuthContext } from '../../../components/contexts/AuthContext';
 
 export default function Index () {
+  const router = useRouter();
   const { user } = useContext(AuthContext);
   const headerHeight = useHeaderHeight();
 
@@ -34,7 +35,16 @@ export default function Index () {
               headerShown: true,
               headerStyle: { backgroundColor: COLORS.lightWhite },
               headerShadowVisible: false,
-              headerRight: ({color, size}) => (<Ionicons name="notifications-outline" size={SIZES.xLarge} color={color} />),
+              headerRight: ({ color }) => {                
+                return (
+                  <Ionicons
+                    name="notifications"
+                    size={SIZES.xLarge}
+                    color={color}
+                    onPress={() => router.push("/notifications")}
+                  />
+                );
+              },
               headerTitle: "Home",
               headerTitleAlign: "center",
               headerTitleStyle: {fontFamily: FONT.bold, fontSize: SIZES.medium, color: COLORS.black},
@@ -52,7 +62,7 @@ export default function Index () {
               />
             }
           >
-            <View style={{flex:1, paddingTop: 0, paddingBottom: SIZES.xxLarge * 3}}>
+            <View style={{flex:1, paddingTop: 0, paddingBottom: SIZES.xLarge * 2}}>
               {user && (
                 <View style={{ paddingHorizontal: SIZES.xSmall }}>
                   <Text style={{
@@ -86,7 +96,7 @@ export default function Index () {
                   source={require('../../../assets/animations/riding-cart.json')}
                   autoPlay
                   loop
-                  style={{ width: 100, height: 100, alignSelf: 'center' }} 
+                  style={{ width: 120, height: 120, alignSelf: 'center' }}
                 />
               </View>
               <WelcomeBanner />
@@ -95,16 +105,6 @@ export default function Index () {
               <PopularBundles />
             </View>
           </ScrollView>
-          <LinearGradient
-            colors={['transparent', COLORS.white, COLORS.white]}
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: '15%',
-            }}
-          />
         </SafeAreaView> 
       </SafeAreaProvider>
     )

@@ -6,6 +6,8 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+    // paddingBottom: SIZES.xLarge * 2
+    paddingBottom: SIZES.xxLarge * 2
   },
   innerContainer: {
     padding: SIZES.large,

@@ -5,7 +5,7 @@ import { SIZES, COLORS, FONT, SHADOWS, } from "../../constants";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: SIZES.small,
+    // marginTop: SIZES.small,
   },
   tabsContainer: {
     flexDirection: 'row',
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 
   productsContainer: {
     flex: 1,
-    paddingTop: SIZES.large,
+    paddingTop: SIZES.small,
   },
 
   productItem: (width) =>  ({

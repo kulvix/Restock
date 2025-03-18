@@ -40,6 +40,18 @@ export const ProductProvider = ({ children }) => {
     }
   };
   
+  // Function to get products by category
+  const getProductsItemsByDiscount = async (minDiscount, maxDiscount) => {
+    // console.log(`${SERVER_URL}/products/${category}`);
+    try {
+      const response = await axios.get(`${SERVER_URL}/producttypes/discount/${minDiscount}/${maxDiscount}`);
+      return response.data;
+    } catch (error) {
+      console.log(`Failed to fetch products with ${minDiscount}% - ${maxDiscount}%:`, error);
+      return [];
+    }
+  };
+  
   
   // Function to get categories
   const fetchCategories = async () => {
@@ -58,7 +70,8 @@ export const ProductProvider = ({ children }) => {
       products,
       loading,
       getProductsByCategory,
-      fetchCategories
+      fetchCategories,
+      getProductsItemsByDiscount,
     }}>
       {children}
     </ProductContext.Provider>

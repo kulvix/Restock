@@ -37,7 +37,7 @@ const TransactionSuccessful = () => {
 					}}
 			/> 
 
-			<View style={{flex:1, padding: SIZES.medium, paddingTop: 0, backgroundColor: COLORS.primary}}>
+			<View style={{flex:1, padding: SIZES.medium, paddingTop: 0, backgroundColor: COLORS.white}}>
 				<TransSuccessful />
 				
 			</View>

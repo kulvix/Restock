@@ -1,95 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Image, Platform, Pressable } from 'react-native';
+import { View, Text, Image, Platform } from 'react-native';
 import styles from './MostPurchased.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, Pressable, FlatList } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRouter, useNavigation } from 'expo-router';
 import { FONT, SIZES, COLORS } from "../../../constants";
 import { ProductContext } from '../../contexts/ProductContext';
 import axios from 'axios';
 
-const Slides = [
-  {
-    id: '1',
-    name: 'Rice',
-    qty: '1',
-    unit: 'painter',
-    price: "3,900",
-    image: require('../../../assets/images/rice.png'),
-  },
-  {
-    id: '2',
-    name: 'Yam',
-    qty: '1',
-    unit: 'tuber',
-    price: "109,900",
-    image: require('../../../assets/images/yam.jpg'),
-  },
-  {
-    id: '3',
-    name: 'Oil',
-    qty: '1',
-    unit: 'bottle',
-    price: "3,900",
-    image: require('../../../assets/images/palmoil.jpg'),
-  },
-  {
-    id: '4',
-    name: 'Spaghetti',
-    qty: '1',
-    unit: 'pack',
-    price: "38,000",
-    image: require('../../../assets/images/spaghetti.png'),
-  },
-  {
-    id: '5',
-    name: 'Meat',
-    qty: '1',
-    unit: 'kilo',
-    price: "989,200",
-    image: require('../../../assets/images/meat.jpg'),
-  },
-  {
-    id: '6',
-    name: 'Cowpea',
-    qty: '1',
-    unit: 'painter',
-    price: "3,900",
-    image: require('../../../assets/images/cowpea.png'),
-  },
-  {
-    id: '7',
-    name: 'Noodles',
-    qty: '1',
-    unit: 'carton',
-    price: "3,900",
-    image: require('../../../assets/images/noodles.png'),
-  },
-  {
-    id: '8',
-    name: 'Bananers',
-    qty: '1',
-    unit: 'kg',
-    price: "3,900",
-    image: require('../../../assets/images/bananer.png'),
-  },
-  {
-    id: '9',
-    name: 'Sprite',
-    qty: '1',
-    unit: 'carton',
-    price: "3,900",
-    image: require('../../../assets/images/sprite.png'),
-  },
-  {
-    id: '10',
-    name: 'garri',
-    qty: '4',
-    unit: 'kg',
-    price: "3,900",
-    image: require('../../../assets/images/garri.jpg'),
-  },
-]
+
 
 const MostPurchasedItems = ({ item, router }) => {
   return (
@@ -97,7 +16,7 @@ const MostPurchasedItems = ({ item, router }) => {
       style={styles.sectionBody}
       onPress={() =>
         router.push({
-          pathname: "/(tabs)/home/productDetails",
+          pathname: "/productDetails",
           params: { item: JSON.stringify(item)},
         })
       }
@@ -111,10 +30,10 @@ const MostPurchasedItems = ({ item, router }) => {
           <Text style={styles.currency} numberOfLines={1}>NGN</Text>
           <Text style={styles.price} numberOfLines={1}>{item.lowest_price}</Text>
         </View>
-        <TouchableOpacity style={styles.sectionBtn}>
+        <Pressable style={styles.sectionBtn}>
             <Ionicons name='eye' size={14} style={styles.sectionBtnIcon} />
             {/* <Text style={styles.sectionBtnText}>View</Text>  */}
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </Pressable>
   );
@@ -137,13 +56,13 @@ const MostPurchased = () => {
       
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionHeaderTitle}>Most purchased</Text>
-        {/* <TouchableOpacity style={styles.sectionHeaderBtn} onPress={()=> { router.push({pathname: "/(tabs)/categories/"})}}>
+        {/* <Pressable style={styles.sectionHeaderBtn} onPress={()=> { router.push({pathname: "/(tabs)/categories/"})}}>
           <Text style={styles.sectionHeaderBtnText}>See more <Ionicons name="chevron-forward" /></Text>
-        </TouchableOpacity> */}
-        <TouchableOpacity style={styles.sectionHeaderBtn} onPress={()=> {router.push({pathname: "/(tabs)/home/products"})}}>
+        </Pressable> */}
+        <Pressable style={styles.sectionHeaderBtn} onPress={()=> {router.push({pathname: "/(tabs)/home/products"})}}>
           <Text style={styles.sectionHeaderBtnText}>See more</Text>
           <Ionicons name="chevron-forward" style={styles.arrowIcon} />
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
         <FlatList

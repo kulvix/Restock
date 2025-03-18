@@ -14,13 +14,14 @@ export const CartProvider = ({ children }) => {
         setCart(JSON.parse(savedCart));
       }
     };
+    // clearCart()
 
     loadCart();
   }, []);
 
   // Calculate total items in the cart
   const totalItems = Object.values(cart).reduce((acc, item) => acc + (item.quantity || 0), 0);
-
+  
   // Function to update the cart
   const updateCart = async (newCart) => {
     setCart(newCart);
@@ -42,7 +43,7 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cart, totalItems, updateCart, removeItemFromCart, clearCart }}>
+    <CartContext.Provider value={{ cart, setCart, totalItems, updateCart, removeItemFromCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

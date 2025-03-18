@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import LottieView from 'lottie-react-native';
 import styles from './RecoverPasswordScreen.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link, useRouter } from 'expo-router';
@@ -32,6 +32,7 @@ const RecoverPasswordScreen = () => {
   const [formFieldErrors, setFormFieldErrors] = useState();
   const [formValidated, setFormValidated] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [messageType, setMessageType] = useState();
 
   const { recoverPassword, user } = useContext(AuthContext);
 
@@ -47,12 +48,15 @@ const RecoverPasswordScreen = () => {
       setFormMessage('Check your mail for instructions to recover your password');
       setIsError(true);
       setLoading(false);
+      setMessageType("success");
       router.replace({
         pathname: "/profile/auth/resetPasswordToken",
         params: { email },
       });
     } catch (error) {
-      setFormMessage(error.message || 'An unexpected error occurred.');
+      setLoading(false);
+      setMessageType("error");
+      setFormMessage(error.response.data.message || 'An unexpected error occurred.');
       setIsError(true);
     }
 	};
@@ -64,9 +68,9 @@ const RecoverPasswordScreen = () => {
     if (Object.keys(errors).length > 0) {
       setFormFieldErrors(errors);
     } else {
-      setFormFieldErrors();
       setFormValidated(true);
-      console.log("error: "+ errors, "validated: "+formValidated);
+      setFormFieldErrors();
+      // console.log("error: "+ errors, "validated: "+formValidated);
     }
   }
 
@@ -88,12 +92,13 @@ const RecoverPasswordScreen = () => {
               />
             </View> */}
             
-            <ErrorMessage
-              formMessage={formMessage}
-              isError={isError}
-              onDismiss={() => setIsError(false)}
-            />
             <View style={styles.formBody}>
+              <ErrorMessage
+                formMessage={formMessage}
+                isError={isError}
+                onDismiss={() => setIsError(false)}
+                messageType={messageType}
+              />
               <TextInput
                 value={email}
                 onChangeText={setEmail}
@@ -120,6 +125,7 @@ const RecoverPasswordScreen = () => {
                 autoPlay
                 loop
                 style={[styles.loaderIcon, loading ? { display: 'flex' } : { display: 'none' }]}
+                speed={4}
               />
               <Pressable
                 onPress={handleRecoverPassword}

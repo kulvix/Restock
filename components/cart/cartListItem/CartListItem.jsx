@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useCart } from '../../../components/contexts/CartContext';
+import { useCart } from '../../contexts/CartContext';
 import styles from './CartListItem.style';
 
 
@@ -68,45 +68,61 @@ const CartListItem = ({ item }) => {
     }
   };
 
+// console.log(item.discountedPrice.discountAmount); return;
   return (
-    <View style={styles.itemContainer}>
-      <Image
-        source={require('../../../assets/images/bundle-large-family.png')}
-        style={styles.itemImage}
-      />
-      <View style={styles.rightSectionBox}>
-        <View style={styles.detailBox}>
-          <Text style={styles.itemTitle}>{item.type_name || item.type}</Text>
-          <Text style={styles.itemDetails}>{item.unit}</Text>
+    item.discountedPrice.discountAmount != 0) ? (
+      // DISCOUNTED
+      <View style={styles.itemContainer}>
+        <Image
+          source={require('../../../assets/images/bundle-large-family.png')}
+          style={styles.itemImage}
+        />
+        <View style={styles.rightSectionBox}>
+          <View style={styles.detailBox}>
+            <Text style={styles.itemTitle}>{item.type_name || item.type}</Text>
+            <Text style={styles.itemDetails}>{item.unit}</Text>
 
-          <Text style={styles.itemDetails}>{`\u20A6${item.price}`} x {item.quantity}</Text>
-        </View>
-
-        <View style={styles.inputSection}>
-          {/* <TouchableOpacity style={styles.inputBtn} onPress={decrement}>
-            <Ionicons name='remove-outline' style={styles.inputIcon} />
-          </TouchableOpacity>
-
-          <View style={styles.inputFieldBox}>
-            <TextInput
-              style={styles.inputField}
-              value={`${currentQuantity}`} // Convert to string
-              editable={false}
-              keyboardType="numeric"
-            />
+            <View style={styles.priceAndPercentageBox}>
+              <Text style={styles.finalPrice}>
+                {`\u20A6${item.discountedPrice.finalPrice}`} x {item.quantity}
+              </Text>
+                <Text style={styles.discountPercentage}>-{item.discount}%</Text>
+            </View>
+            <Text style={styles.normalPrice}>Instead of {`\u20A6${item.discountedPrice.originalPrice}`} x {item.quantity}</Text>
           </View>
-
-          <TouchableOpacity style={styles.inputBtn} onPress={increment}>
-            <Ionicons name='add-outline' style={styles.inputIcon} />
-          </TouchableOpacity> */}
-        
-          <TouchableOpacity style={styles.deleteIconBox} onPress={() => removeItemFromCart(item.type_id)}>
-            <Ionicons name='trash' size={20} style={styles.deleteIcon} />
-          </TouchableOpacity>
+          <View style={styles.inputSection}>
+          
+            <TouchableOpacity style={styles.deleteIconBox} onPress={() => removeItemFromCart(item.cart_item_id)}>
+              <Ionicons name='trash' size={20} style={styles.deleteIcon} />
+            </TouchableOpacity>
+          </View>
+        </View>
+          <Text style={styles.discountAmount}>You are saving {`\u20A6${item.discountedPrice.discountAmount * item.quantity}`}</Text>
+      </View>
+    ) : (
+      <View style={styles.itemContainer}>
+        <Image
+          source={require('../../../assets/images/bundle-large-family.png')}
+          style={styles.itemImage}
+        />
+        <View style={styles.rightSectionBox}>
+          <View style={styles.detailBox}>
+            <Text style={styles.itemTitle}>{item.type_name || item.type}</Text>
+            <Text style={styles.itemDetails}>{item.unit}</Text>
+  
+            <Text style={styles.itemDetails}>{`\u20A6${item.price}`} x {item.quantity}</Text>
+          </View>
+  
+          <View style={styles.inputSection}>
+          
+            <TouchableOpacity style={styles.deleteIconBox} onPress={() => removeItemFromCart(item.cart_item_id)}>
+              <Ionicons name='trash' size={20} style={styles.deleteIcon} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
-  );
+
+    )
 };
 
 export default CartListItem;

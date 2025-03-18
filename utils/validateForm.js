@@ -29,10 +29,10 @@ const validateField = (fieldName, value, formData = {}, requiredFields = []) => 
       return value !== formData.password ? 'Passwords do not match' : null;
     },
     firstName: (value) => {
-      return value.length < 2 ? 'Name must be at least 2 characters long' : null;
+      return value.length < 2 ? 'Name too short' : null;
     },
     lastName: (value) => {
-      return value.length < 2 ? 'Name must be at least 2 characters long' : null;
+      return value.length < 2 ? 'Name too short' : null;
     },
     address_line1: (value) => {
       return value.length < 2 ? 'Address must be at least 2 characters long' : null;

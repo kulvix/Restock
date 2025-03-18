@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Dimensions, useWindowDimensions } from 'react-native';
 import styles from './FilterFooter.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, Pressable, FlatList } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from '../../../constants';
 import Checkbox from 'expo-checkbox';
@@ -16,13 +16,13 @@ const FilterFooter = () => {
   return (
     <View style={styles.container}>
       <View style={styles.btnBox}>
-        <TouchableOpacity style={styles.clearBtn(width)}>
+        <Pressable style={styles.clearBtn(width)}>
           <Text style={styles.clearBtnText}>Clear</Text>
-        </TouchableOpacity>
+        </Pressable>
       
-        <TouchableOpacity style={styles.showBtn(width)}>
+        <Pressable style={styles.showBtn(width)}>
           <Text style={styles.showBtnText}>Show 75 items</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   )

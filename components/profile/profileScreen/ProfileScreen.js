@@ -1,5 +1,5 @@
 import React, { useRef, useContext, useState } from 'react';
-import { View, Text, Image, Modal, Button, Pressable, useWindowDimensions } from 'react-native';
+import { View, Text, Image, Modal, useWindowDimensions } from 'react-native';
 // import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   useSharedValue,
@@ -8,7 +8,7 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 import styles from './ProfileScreen.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, Pressable, FlatList } from 'react-native-gesture-handler';
 
 import {
   GestureHandlerRootView,
@@ -87,11 +87,11 @@ const ProfileScreen = ({ isModalVisible, toggleModal }) => {
           <Text style={styles.profileName}>{user ? name : ""}</Text>
         </View>
 
-        <View style={styles.walletSection}>
+        {/* <View style={styles.walletSection}>
           <View style={styles.walletBox}>
-            <TouchableOpacity style={styles.eyeBtn}>
+            <Pressable style={styles.eyeBtn}>
               <Ionicons name='eye-outline' size={20} color={COLORS.white} />
-            </TouchableOpacity>
+            </Pressable>
 
             <View style={styles.walletInnerBox}>
               <Text style={styles.walletTitleText}>******</Text>
@@ -100,9 +100,9 @@ const ProfileScreen = ({ isModalVisible, toggleModal }) => {
           </View>
           <View style={styles.line}></View>
           <View style={styles.walletBox}>
-            <TouchableOpacity style={styles.eyeBtn}>
+            <Pressable style={styles.eyeBtn}>
               <Ionicons name='eye' size={20} color={COLORS.white} />
-            </TouchableOpacity>
+            </Pressable>
 
             <View style={styles.walletInnerBox}>
               <Text style={styles.walletTitleText}>1230</Text>
@@ -112,17 +112,17 @@ const ProfileScreen = ({ isModalVisible, toggleModal }) => {
         </View>
 
         <View style={styles.actionBtnSection}>
-          <TouchableOpacity style={styles.btn}>
+          <Pressable style={styles.btn}>
             <Text style={styles.btnText}><Ionicons name='add' /> Add money</Text>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity style={styles.btn}>
+          <Pressable style={styles.btn}>
             <Text style={styles.btnText}><Ionicons name='send' /> Transfer</Text>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity style={styles.btn}>
+          <Pressable style={styles.btn}>
             <Text style={styles.btnText}><Ionicons name='pencil' /> Edit profile</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
         <View style={styles.ProfileDetailsSection}>
@@ -131,17 +131,20 @@ const ProfileScreen = ({ isModalVisible, toggleModal }) => {
             <Text style={styles.detailtext}><Ionicons name='call' />{' '} {user?.phone ? user.phone : "xxx xxx xxxx xx"}</Text>
             <Text style={styles.detailtext}><Ionicons name='mail' />{' '} {user?.email ? user.email : ""}</Text>
           </View>
-        </View>
+        </View> */}
 
       </View>
         
-      <View style={styles.innerContainer}>
-        <ProfileCompletionLoader
+      {/* <View style={styles.innerContainer}>
+         <ProfileCompletionLoader
           currentLevel={level}
           labels={["Personal Info", "Billing Info", "Payment Method"]}
           onPress={handlePress}
-        />
-        {/* <Button title="Next Step" onPress={increaseLevel} /> */}
+        /> 
+         <Button title="Next Step" onPress={increaseLevel} /> 
+      </View> */}
+      <View style={styles.innerContainer}>
+        <AccountSettings />
       </View>
       
 
@@ -172,7 +175,7 @@ const ProfileScreen = ({ isModalVisible, toggleModal }) => {
                     <Text style={styles.modalTitle}>Account Settings</Text>
                   </View>
 
-                  <AccountSettings />
+                  {/* <AccountSettings /> */}
 
                 </ScrollView>
               </Animated.View>

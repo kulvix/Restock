@@ -9,6 +9,7 @@ const COLORS = {
   alert: "#ffa627",
 
   gray: "#888888",
+  lightGray: "#eeeeee",
   grayDark: "#333333",
   black: "#000000",
 

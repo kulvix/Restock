@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { View, Text, FlatList, TouchableOpacity, Image, Pressable, Dimensions } from 'react-native';
+import { View, Text, FlatList, Image, Pressable, Dimensions } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { SIZES } from '../../constants';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -30,9 +30,9 @@ const CategoryItems = ({ item, width }) => {
           <Text style={styles.currency} numberOfLines={1}>NGN</Text>
           <Text style={styles.price} numberOfLines={1}>{item.price}</Text>
         </View>
-        <TouchableOpacity style={styles.sectionBtn}>
+        <Pressable style={styles.sectionBtn}>
           <Text style={styles.sectionBtnText}><Ionicons name='add' size={14} /></Text> 
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </Pressable>
   );
@@ -118,14 +118,14 @@ const CategoriesScreen = ({ targetCategoryTab }) => {
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.category_name}
           renderItem={({ item }) => (
-            <TouchableOpacity
+            <Pressable
               style={styles.tabs(selectedCategory, item.category_name)}
               onPress={() => handleCategoryChange(item.category_name)}
             >
               <Text style={styles.tabText(selectedCategory, item.category_name)}>
                 {item.category_name}
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           )}
         />
       </View>
@@ -136,7 +136,7 @@ const CategoriesScreen = ({ targetCategoryTab }) => {
           renderItem={({ item }) => (
             <ProductListItem item={item} key={item.sku} updateCart={updateCart} cart={cart} />
           )}
-          contentContainerStyle={{ paddingBottom: 180 }}
+          contentContainerStyle={{ paddingBottom: SIZES.large * 3 }}
         />
       </View>
       {/* <View style={styles.productsContainer}>

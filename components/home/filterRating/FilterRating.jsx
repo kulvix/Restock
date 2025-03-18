@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import styles from './FilterRating.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from '../../../constants';
 

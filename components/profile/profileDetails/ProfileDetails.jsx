@@ -1,7 +1,7 @@
 import React, { useRef, useContext, useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import styles from './ProfileDetails.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, Pressable, FlatList } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from '../../../constants';
 import { AuthContext } from '../../../components/contexts/AuthContext';
@@ -31,9 +31,9 @@ const ProfileDetails = () => {
 
       <View style={styles.walletSection}>
         <View style={styles.walletBox}>
-          <TouchableOpacity style={styles.eyeBtn}>
+          <Pressable style={styles.eyeBtn}>
             <Ionicons name='eye-outline' size={20} color={COLORS.white} />
-          </TouchableOpacity>
+          </Pressable>
 
           <View style={styles.walletInnerBox}>
             <Text style={styles.walletTitleText}>******</Text>
@@ -42,9 +42,9 @@ const ProfileDetails = () => {
         </View>
         <View style={styles.line}></View>
         <View style={styles.walletBox}>
-          <TouchableOpacity style={styles.eyeBtn}>
+          <Pressable style={styles.eyeBtn}>
             <Ionicons name='eye' size={20} color={COLORS.white} />
-          </TouchableOpacity>
+          </Pressable>
 
           
           <View style={styles.walletInnerBox}>
@@ -56,17 +56,17 @@ const ProfileDetails = () => {
 
 
       <View style={styles.actionBtnSection}>
-        <TouchableOpacity style={styles.btn}>
+        <Pressable style={styles.btn}>
           <Text style={styles.btnText}><Ionicons name='add' /> Add money</Text>
-        </TouchableOpacity>
+        </Pressable>
 
-        <TouchableOpacity style={styles.btn}>
+        <Pressable style={styles.btn}>
           <Text style={styles.btnText}><Ionicons name='send' /> Transfer</Text>
-        </TouchableOpacity>
+        </Pressable>
 
-        <TouchableOpacity style={styles.btn}>
+        <Pressable style={styles.btn}>
           <Text style={styles.btnText}><Ionicons name='pencil' /> Edit profile</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <View style={styles.ProfileDetailsSection}>

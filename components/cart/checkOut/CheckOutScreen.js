@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Image } from 'react-native';
 import styles from './CheckOutScreen.styles';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, Pressable, FlatList } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { SIZES } from '../../../constants';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -11,7 +11,7 @@ import { getBaseURL } from '../../../utils/apiConfig';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { getNativeSourceAndFullInitialStatusForLoadAsync } from 'expo-av/build/AV';
-
+import { useCart } from '../../../components/contexts/CartContext';
 
 
 
@@ -51,10 +51,10 @@ const DeliveryCard = ({item, selectedDelivery, setSelectedDelivery}) => {
 
   const router = useRouter();
 	return (
-				<TouchableOpacity style={styles.card(item.id, selectedDelivery)} onPress={() => {setSelectedDelivery(item.id)}}>
-					<TouchableOpacity style={styles.checkbox(item.id, selectedDelivery)} 
+				<Pressable style={styles.card(item.id, selectedDelivery)} onPress={() => {setSelectedDelivery(item.id)}}>
+					<Pressable style={styles.checkbox(item.id, selectedDelivery)} 
 						onPress={() => {setSelectedDelivery(item.id)}}>
-					</TouchableOpacity>
+					</Pressable>
 					<View style={styles.cardDetailBox}>
 						<Text style={styles.cardTitleText}>{item.name}</Text>
 
@@ -72,13 +72,13 @@ const DeliveryCard = ({item, selectedDelivery, setSelectedDelivery}) => {
               </Text>
             </View>
 					</View>
-					<TouchableOpacity
+					<Pressable
             style={styles.editBtnBox}
             onPress={() => router.push("/(tabs)/profile/billingInformation")}
           >
 						<Ionicons name='pencil' style={styles.editBtnText} />
-					</TouchableOpacity>
-				</TouchableOpacity>
+					</Pressable>
+				</Pressable>
 	)
 }
 
@@ -86,17 +86,17 @@ const DeliveryCard = ({item, selectedDelivery, setSelectedDelivery}) => {
 const PaymentCard = ({item, selectedPayment, setSelectedPayment}) => {
 
 	return (
-		<TouchableOpacity style={styles.paymentCard(item.id, selectedPayment)} onPress={() => {setSelectedPayment(item.id)}}>
+		<Pressable style={styles.paymentCard(item.id, selectedPayment)} onPress={() => {setSelectedPayment(item.id)}}>
 			<View style={styles.paymentCardDetailBox}>
 				<Image source={item.image} style={styles.imageIcon} />
 				<View>
 					<Text style={styles.paymentCardTitleText}>{item.name}</Text>
 				</View>
 			</View>
-			<TouchableOpacity style={styles.paymentCheckbox(item.id, selectedPayment)} 
+			<Pressable style={styles.paymentCheckbox(item.id, selectedPayment)} 
 				onPress={() => {setSelectedPayment(item.id)}}>
-			</TouchableOpacity>
-		</TouchableOpacity>
+			</Pressable>
+		</Pressable>
 	)
 }
 
@@ -112,23 +112,31 @@ const currencyToNumber = (currencyString) => {
 
 
 const CheckOutScreen = () => {
+  
 	const { item } = useLocalSearchParams();
-  const { user, logout } = useContext(AuthContext);
+  const { cart, clearCart } = useCart();
+  const { user } = useContext(AuthContext);
 
   const [addresses, setAddresses] = useState();
   const [loading, setLoading] = useState(true);
-
-	const formattedAmount = JSON.parse(item);
-	const amount = currencyToNumber(JSON.parse(item));
-	// console.log(amount);
+  
+	const cartTotals = JSON.parse(item);
+  // console.log(cartTotals);
+	const amount = cartTotals.grandTotalWithDiscount;
 
   const BASE_URL = getBaseURL();
   const SERVER_URL = `${BASE_URL}/server`;
 
 	const router = useRouter();
-	const [selectedDelivery, setSelectedDelivery] = useState();
+	const [selectedDelivery, setSelectedDelivery] = useState(null);
+  
 	const [selectedPayment, setSelectedPayment] = useState(1);
 
+  useEffect(() => {
+    if(cart == {}) {
+      router.replace('(tabs)/cart');
+    }
+  },[])
   useEffect(() => {
     if (user == [] || !user) return;
     const fetchBillingAddresses = async () => {
@@ -154,6 +162,13 @@ const CheckOutScreen = () => {
   }, [user]);
 
 
+  useEffect(() => {
+    if (addresses && addresses.length > 0) {
+      setSelectedDelivery(addresses[0].id);
+    }
+  }, [addresses]);
+
+
     
   // console.log(addresses);
 
@@ -169,57 +184,57 @@ const CheckOutScreen = () => {
             user ? (
               addresses ? (
                 addresses.map((item) => (
-                  <>
+                  <View key={item.id}>
                     <DeliveryCard
-                      key={item.id} // Unique key for performance
                       item={item}
                       selectedDelivery={selectedDelivery}
                       setSelectedDelivery={setSelectedDelivery}
                     />
+                  </View>
 
-                    {/* <TouchableOpacity
-                      style={styles.card(1000, selectedDelivery)}
-                      onPress={() => router.push("/(tabs)/profile/billingInformation")}>
-                      <View style={styles.cardDetailBox}>
-                        <Text style={styles.cardTitleText}>Add Delivery location</Text>
-                      </View>
-                      <TouchableOpacity style={styles.editBtnBox}>
-                        <Ionicons name='add-outline' style={styles.editBtnText} />
-                      </TouchableOpacity>
-                    </TouchableOpacity> */}
-                  </>
+                    // <Pressable
+                    //   style={styles.card(1000, selectedDelivery)}
+                    //   onPress={() => router.push("/(tabs)/profile/billingInformation")}>
+                    //   <View style={styles.cardDetailBox}>
+                    //     <Text style={styles.cardTitleText}>Add Delivery location</Text>
+                    //   </View>
+                    //   <Pressable style={styles.editBtnBox}>
+                    //     <Ionicons name='add-outline' style={styles.editBtnText} />
+                    //   </Pressable>
+                    // </Pressable>
+                  
                 ))
               ) : (
-                <TouchableOpacity
+                <Pressable
                   style={styles.card(item.id, selectedDelivery)}
                   onPress={() => router.push("/(tabs)/profile/billingInformation")}>
                   <View style={styles.cardDetailBox}>
                     <Text style={styles.cardTitleText}>Add Delivery location</Text>
                   </View>
-                  <TouchableOpacity
+                  <Pressable
                     style={styles.editBtnBox}
                     onPress={() => router.push("/(tabs)/profile/billingInformation")}
                   >
                     <Ionicons name='add-outline' style={styles.editBtnText} />
-                  </TouchableOpacity>
-                </TouchableOpacity>
+                  </Pressable>
+                </Pressable>
               )              
             ) : (
               <>
-                <TouchableOpacity
+                <Pressable
                   style={styles.card(item.id, selectedDelivery)}
                   onPress={() => router.push("/(tabs)/profile/auth/login")}
                 >
                   <View style={styles.cardDetailBox}>
                     <Text style={styles.cardTitleText}>Login to checkout</Text>
                   </View>
-                  <TouchableOpacity
+                  <Pressable
                     style={styles.editBtnBox}
                     onPress={() => router.push("/(tabs)/profile/auth/login")}
                   >
                     <Ionicons name='add-outline' style={styles.editBtnText} />
-                  </TouchableOpacity>
-                </TouchableOpacity>
+                  </Pressable>
+                </Pressable>
               </>
             )
           }
@@ -241,7 +256,14 @@ const CheckOutScreen = () => {
 			
 			</View>
 
-			<CartFooter totalAmount={formattedAmount} btnText={'Pay'} btnRoute={'/(tabs)/cart/payment'} screen={"checkout"} />
+			<CartFooter
+        cartTotals={cartTotals}
+        // totalAmount={amount}
+        btnText={'Pay'}
+        btnRoute={'/(tabs)/cart/payment'}
+        screen={"checkout"}
+        selectedDelivery={selectedDelivery}
+        />
 		</View>
 	)
 }

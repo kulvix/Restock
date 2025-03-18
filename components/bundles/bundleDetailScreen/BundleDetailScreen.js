@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, ImageBackground } from 'react-native';
-import { ScrollView, TouchableOpacity, FlatList, Image } from 'react-native-gesture-handler';
+import { ScrollView, FlatList, Image, Pressable } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS, SIZES, FONT } from "../../../constants";
 import styles from './BundleDetailScreen.style';
@@ -11,82 +11,137 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CartBadge from '../../cart/cartBadge/CartBadge';
 import { useCart } from '../../../components/contexts/CartContext';
 import { getBaseURL } from '../../../utils/apiConfig';
+import { BundleContext } from '../../contexts/BundleContext';
 
 
 
-const BundleDetailScreen = ( {itemDetails}) => {
+const BundleDetailScreen = ({itemDetails}) => {
   // console.log(itemDetails);
-	const [productItems, setProductItems] = useState([]);
-	const [loading, setLoading] = useState(true);
+  const { bundles, getBundleItems } = useContext(BundleContext);
+  
+	const [bundleItems, setBundleItems] = useState(null);
 	const [error, setError] = useState(null);
 	const [bundleId, setBundleId] = useState(null);
 
-  // const [cart, setCart] = useState({});
 	const { cart, updateCart } = useCart();
 
-  // const BASE_URL = getBaseURL();
-	// const SERVER_URL = `${BASE_URL}/server`;
-	
+  // const [currentQuantity, setCurrentQuantity] = useState(cart[itemDetails.bundle_id]?.quantity || 0);
 
-	// useEffect(() => {
-	// 	const getProductTypes = async () => {
-	// 		try {
-	// 			const response = await axios.get(`${SERVER_URL}/producttypes/${itemDetails.bundle_id}`);
-	// 			setProductItems(response.data);
-	// 			setLoading(false);
-	// 		} catch (err) {
-	// 			setError(err.message);
-	// 			setLoading(false);
-	// 		}
-	// 	};
-	// 	getProductTypes();
-	// }, [bundleId]);
+  const cartItem = Object.values(cart).find(
+    (item) => item.bundle_id === itemDetails.bundle_id
+  );
+  const [currentQuantity, setCurrentQuantity] = useState(cartItem?.quantity || 0);
+
+  // console.log(currentQuantity);
+  useEffect(() => {
+    const cartItem = Object.values(cart).find(
+      (item) => item.bundle_id === itemDetails.bundle_id
+    );
+  
+    setCurrentQuantity(cartItem?.quantity || 0);
+  }, [cart, itemDetails.bundle_id]); // Ensure re-renders when cart updates
+  
+  useEffect(() => {
+    const fetchBundleItems = async () => {
+      try {
+        const bundleItemsRes = await getBundleItems(itemDetails.bundle_id);
+        setBundleItems(bundleItemsRes);
+      } catch (error) {
+        console.error("Failed to fetch bundle items:", error);
+      }
+    };
+    
+    fetchBundleItems();
+  }, [bundleId, itemDetails]);
+  
+  // console.log(bundleItems); return
+
+  const addBundleToCart = (bundle) => {
+    // Find if the bundle already exists in the cart
+    const cartKey = Object.keys(cart).find(
+      (key) => cart[key].bundle_id === bundle.bundle_id
+    );
+  
+    if (cartKey) {
+      // If bundle already exists, increment its quantity
+      const newCart = {
+        ...cart,
+        [cartKey]: {
+          ...cart[cartKey],
+          quantity: cart[cartKey].quantity + 1,
+        },
+      };
+      updateCart(newCart);
+    } else {
+      // If bundle is new, add it with a unique ID
+      const cart_item_id = `bundle_${Date.now()}`;
+      const newCart = {
+        ...cart,
+        [cart_item_id]: {
+          cart_item_id,
+          bundle_id: bundle.bundle_id,
+          bundle_name: bundle.bundle_name,
+          description: bundle.description,
+          price: bundleItems.total_price,
+          image_url: bundle.image_url,
+          quantity: 1, // Start with 1 instead of currentQuantity + 1
+          isBundle: true,
+        },
+      };
+      updateCart(newCart);
+    }
+  };
+  // console.log(bundleItems.total_price);
+
+  const removeBundleFromCart = (bundle) => {
+    // Find the cart key associated with this bundle
+    const cartKey = Object.keys(cart).find(
+      (key) => cart[key].bundle_id === bundle.bundle_id
+    );
+  
+    if (!cartKey) return; // If not in cart, exit
+  
+    if (cart[cartKey].quantity > 1) {
+      // Decrease quantity if more than 1
+      const newCart = {
+        ...cart,
+        [cartKey]: {
+          ...cart[cartKey],
+          quantity: cart[cartKey].quantity - 1,
+        },
+      };
+      updateCart(newCart);
+    } else {
+      // Remove item completely if quantity reaches 0
+      const newCart = { ...cart };
+      delete newCart[cartKey];
+      updateCart(newCart);
+    }
+  };
+  
+  const formatCurrency = (amount) => {
+    return `\u20A6${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  };
 
 
 
-	// // Load cart from AsyncStorage when the app mounts
-  // useEffect(() => {
-  //   const loadCart = async () => {
-  //     const savedCart = await AsyncStorage.getItem('cart');
-  //     if (savedCart) {
-  //       setCart(JSON.parse(savedCart));
-  //     }
-  //   };
 
-  //   loadCart();
-  // }, []);
-
-  // // Save cart to AsyncStorage whenever it changes
-  // useEffect(() => {
-  //   const saveCart = async () => {
-  //     await AsyncStorage.setItem('cart', JSON.stringify(cart));
-  //   };
-
-  //   saveCart();
-  // }, [cart]);
-
-
-	// const updateCart = (itemId, quantity) => {
-  //   setCart(prevCart => {
-  //     if (quantity <= 0) {
-  //       const { [itemId]: _, ...newCart } = prevCart; // Remove item if quantity is 0
-  //       return newCart;
-  //     }
-  //     return { ...prevCart, [itemId]: quantity };
-  //   });
-  // };
-
+  if(!bundleItems) {
+    return
+  } 
+// console.log("Bundles: ", itemDetails, itemDetails.bundle_id); return;
 	return (
 		<View style={styles.container}>
 			<View style={styles.imageBox}>
         <ImageBackground
-          source={itemDetails.image}
+          source={{uri: itemDetails.image_url}}
           resizeMode="cover"
           style={styles.backgroundImage}
         >
         <LinearGradient colors={['transparent', COLORS.black]} style={styles.boxGradient} />
-          <View style={styles.section1}>
-            <Text style={styles.titleText}>{itemDetails.name}</Text>
+          <View style={styles.sections}>
+            <Text style={styles.titleText}>{itemDetails.bundle_name}</Text>
+            <Text style={styles.descText}>{itemDetails.description}</Text>
             <View style={styles.ratingBox}>
               <Ionicons name='star' style={styles.ratingStar} />
               <Ionicons name='star' style={styles.ratingStar} />
@@ -94,27 +149,47 @@ const BundleDetailScreen = ( {itemDetails}) => {
               <Ionicons name='star' style={styles.ratingStar} />
               <Ionicons name='star' style={styles.ratingStar} />
             </View>
-            {/* <Text style={styles.subTitle}>8 tubers</Text> */}
           </View>
-          <View style={styles.section1}>
-            <Text style={styles.descText}>{itemDetails.subtitle}</Text>
-            <Text style={styles.titleText}>NGN {itemDetails.price}</Text>
+          <View style={styles.sections}>
+            <Text style={styles.priceText}>{formatCurrency(parseFloat(bundleItems.total_price))}</Text>
+            <View style={styles.addToCartBtnContainer}>
+
+              {
+                currentQuantity < 1 ? (
+                  <Pressable style={styles.addToCartBtn} onPress={() => addBundleToCart(itemDetails)}>
+                    <Ionicons name='cart-outline' size={20} color={COLORS.white} />
+                    <Text style={styles.addToCartBtText}>Add to cart</Text>
+                  </Pressable>
+                ) : (
+                  <View style={styles.doubleBtnContainer}>
+                    <Pressable style={styles.doubleBtn1} onPress={() => removeBundleFromCart(itemDetails)}>
+                      <Ionicons name='remove' size={20} color={COLORS.white} />
+                    </Pressable>
+                    <Text style={styles.quantityBox}>{currentQuantity}</Text>
+                    <Pressable style={styles.doubleBtn2} onPress={() => addBundleToCart(itemDetails)}>
+                      <Ionicons name='add' size={20} color={COLORS.white} />
+                    </Pressable>
+                  </View>
+                )
+
+
+              }
+              
+            </View>
           </View>
         </ImageBackground>
       </View>
 
-
-			<View style={styles.section2}>
+			<ScrollView style={styles.section2}>
 				<Text style={styles.sectionTitle}>Bundle items</Text>
 				<View style={styles.listItemsContainer}>
-					{productItems.map((item) => {    
+					{bundleItems.items.map((item) => {
 						return (
-							<BundleListItem item={item} key={item.type_id} updateCart={updateCart} cart={cart} />
+							<BundleListItem item={item} key={item.bundle_item_id} />
 						)
 					})}
 				</View>
-				<CartBadge />
-			</View>
+			</ScrollView>
 		</View>
 	)
 }

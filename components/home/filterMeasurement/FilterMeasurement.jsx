@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import styles from './FilterMeasurement.style';
-import { ScrollView, TouchableOpacity, FlatList } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { COLORS } from '../../../constants';
 import Checkbox from 'expo-checkbox';

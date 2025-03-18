@@ -11,10 +11,10 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: SIZES.xxLarge,
     // paddingVertical: SIZES.xxLarge,
-    paddingTop: SIZES.xxLarge * 3,
+    paddingTop: SIZES.xxLarge * 2,
     alignItems: 'center',
     justifyContent: 'center',
-		marginBottom: SIZES.xxLarge * 2,
+		marginBottom: SIZES.xxLarge,
   },
   imageIcon: {
     // marginVertical: SIZES.xxLarge,
@@ -23,13 +23,17 @@ const styles = StyleSheet.create({
   },
 
   googleBtn: {
+    alignSelf:'center',
     flexDirection: 'row',
-    gap: SIZES.large,
+    gap: SIZES.small,
     alignItems: 'center',
-    padding: SIZES.xSmall / 2,
+    justifyContent: 'center',
     backgroundColor: '#4285F4',
     borderRadius: SIZES.small,
     marginBottom: SIZES.small,
+    height: SIZES.xLarge * 2,
+    padding: SIZES.xSmall / 5,
+    paddingRight: SIZES.large,
   },
   googleBtnPressed: {
     opacity: .6,
@@ -40,6 +44,7 @@ const styles = StyleSheet.create({
     padding: SIZES.xSmall,
   },
   googleBtnIcon: {
+    alignItems: 'flex-start',
     width: SIZES.xLarge,
     height: SIZES.xLarge,
   },

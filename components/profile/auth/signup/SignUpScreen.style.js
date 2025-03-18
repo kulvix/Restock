@@ -4,11 +4,11 @@ import { FONT, SIZES, COLORS } from "../../../../constants";
 
 const styles = StyleSheet.create({
   container: {
-		// flex: 1,
+		flex: 1,
   },
   header: {
     // paddingHorizontal: SIZES.xxLarge,
-    height: 400,
+    height: 300,
     flexDirection: "row",
 		borderBottomEndRadius: SIZES.xLarge * 2,
 		borderBottomStartRadius: SIZES.xLarge * 2,
@@ -16,9 +16,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: 'center',
     justifyContent: 'center',
-		marginBottom: SIZES.xxLarge,
+		marginBottom: SIZES.large,
     overflow: 'hidden',
-    // position: 'relative',
   },
   backgroundImage: {
     flex: 1,
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
     // height: '65%',
   },
 	headerTitle: {
-		marginTop: SIZES.xxLarge * 3,
+		marginTop: SIZES.xxLarge * 2,
     fontFamily: FONT.bold,
     fontSize: SIZES.large * 2,
     letterSpacing: -2,
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
   },
 	footerSection: {
 		flexDirection: 'row',
-		marginTop: SIZES.xxLarge * 1.5,
+		marginTop: SIZES.large,
 		marginHorizontal: SIZES.small,
 		flex: 1,
 		justifyContent: 'center',

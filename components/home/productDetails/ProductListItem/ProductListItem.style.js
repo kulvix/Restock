@@ -58,12 +58,53 @@ const styles = StyleSheet.create({
     fontFamily: FONT.regular,
     fontSize: SIZES.small,
     color: COLORS.gray,
-    marginBottom: SIZES.small
+    marginBottom: SIZES.small / 4
   },
   itemPrice: {
+    fontFamily: FONT.heavy,
+    fontSize: SIZES.small,
+    color: COLORS.black,
+    marginBottom: 0,
+    bottom: 0
+  },
+  finalPrice: {
+    fontFamily: FONT.heavy,
+    fontSize: SIZES.small,
+    color: COLORS.black,
+  },
+  normalPrice: {
+    fontFamily: FONT.bold,
+    fontSize: SIZES.xSmall,
+    color: COLORS.gray,
+    textDecorationLine: 'line-through',
+  },
+  discountAmount: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    padding: SIZES.xSmall / 2,
     fontFamily: FONT.bold,
     fontSize: SIZES.small,
     color: COLORS.black,
+    backgroundColor: COLORS.alert,
+    borderRadius: SIZES.small,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    color: COLORS.white,
+  },
+  discountPercentage: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    padding: SIZES.xSmall / 2,
+    fontFamily: FONT.bold,
+    fontSize: SIZES.small,
+    color: COLORS.black,
+    backgroundColor: COLORS.error,
+    borderRadius: SIZES.small,
+    borderTopLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    color: COLORS.white,
   },
 
 
