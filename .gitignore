@@ -1,0 +1,41 @@
+# Node/Expo dependencies
+node_modules/
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native/Build
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+.metro-health-check*
+
+# Logs and Debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# Env
+.env
+.env*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Firebase/Secrets
+restock-kulvix-firebase-adminsdk-*.json
+google-services.json
+
+# Output folders
+ios/
+android/
+backend/
+app-example/
